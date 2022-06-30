@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="FrameworkDetectionExcludesConfiguration">
-    <type id="AngularCLI" />
-    <type id="hibernate" />
-    <type id="javaeeApplication" />
-    <type id="jpa" />
-    <type id="Spring" />
-    <type id="web" />
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK" />
   <component name="EntryPointsManager">
     <list size="84">
       <item index="0" class="java.lang.String" itemvalue="com.codahale.metrics.annotation.Gauge" />
@@ -110,6 +101,15 @@
       <writeAnnotation name="org.springframework.boot.web.server.LocalServerPort" />
     </writeAnnotations>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <type id="AngularCLI" />
+    <type id="hibernate" />
+    <type id="javaeeApplication" />
+    <type id="jpa" />
+    <type id="Spring" />
+    <type id="web" />
+  </component>
   <component name="NullableNotNullManager">
     <option name="myNotNulls">
       <value>
@@ -146,5 +146,9 @@
         </list>
       </value>
     </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectType">
+    <option name="id" value="jpab" />
   </component>
 </project>

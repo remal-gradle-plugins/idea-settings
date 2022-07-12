@@ -2,7 +2,7 @@ allprojects {
     configurations.create('projectDependencyConstraints') { Configuration conf ->
         conf.dependencies.addAll(
             [
-                'name.remal.gradle-plugins.toolkit:toolkit-bom:0.16.0',
+                'name.remal.gradle-plugins.toolkit:toolkit-bom:0.20.0',
                 'org.ow2.asm:asm-bom:9.3',
                 'org.junit:junit-bom:5.8.2',
                 'org.mockito:mockito-bom:4.6.1',
@@ -21,9 +21,14 @@ allprojects {
                 'org.projectlombok:lombok:1.18.24',
 
                 // Compile-only
+                'com.google.guava:guava:31.1-jre',
+                'org.json:json:20220320',
+                'net.sf.saxon:Saxon-HE:11.3',
+                'org.xmlunit:xmlunit-core:2.9.0',
                 'name.remal:gradle-plugins-api:1.6.0',
 
                 // Compile
+                'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.5',
                 "name.remal.gradle-api:local-groovy:${property('gradle-api.version')}",
                 "name.remal.gradle-api:gradle-api:${property('gradle-api.version')}",
 

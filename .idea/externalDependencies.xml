@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ExternalDependencies">
     <plugin id="CheckStyle-IDEA" />
-    <plugin id="com.intellij.gradle" />
+    <plugin id="com.dubreuia" />
     <plugin id="org.editorconfig.editorconfigjetbrains" />
   </component>
 </project>

@@ -46,9 +46,9 @@
   </xsl:template>
 
 
-  <xsl:template match="@* | node()" priority="-9999">
+  <xsl:template match="@*|node()" priority="-9999">
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
   </xsl:template>
 

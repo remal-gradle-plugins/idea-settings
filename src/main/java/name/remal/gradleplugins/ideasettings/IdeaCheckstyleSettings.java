@@ -5,7 +5,6 @@ import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import lombok.Data;
-import org.gradle.api.model.ObjectFactory;
 
 @Data
 public class IdeaCheckstyleSettings {
@@ -36,7 +35,8 @@ public class IdeaCheckstyleSettings {
 
 
     @Inject
-    public IdeaCheckstyleSettings(ObjectFactory objectFactory) {
+    public IdeaCheckstyleSettings() {
+        // do nothing
     }
 
 }

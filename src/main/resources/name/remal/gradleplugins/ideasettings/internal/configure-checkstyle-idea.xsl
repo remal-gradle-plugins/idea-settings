@@ -18,75 +18,17 @@
 
   <!-- #region Version 1 -->
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]
-    /option[@name = 'configuration']
-    /map
-    /entry[@key = 'checkstyle-version']
-  ">
-    <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
-      <xsl:attribute name="value" select="$checkstyle-version"/>
-    </xsl:copy>
+  <xsl:template match="/project/component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]">
+    <xsl:apply-templates select="." mode="version-1"/>
   </xsl:template>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]
-    /option[@name = 'configuration']
-    /map
-    /entry[@key = 'copy-libs']
-  ">
+  <xsl:template match="option[@name = 'configuration']/map" mode="version-1">
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
-      <xsl:attribute name="value" select="'true'"/>
-    </xsl:copy>
-  </xsl:template>
-
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]
-    /option[@name = 'configuration']
-    /map
-    /entry[@key = 'scanscope']
-  ">
-    <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
-      <xsl:choose>
-        <xsl:when test="@value = 'JavaOnly'">
-          <xsl:attribute name="value" select="'JavaOnlyWithTests'"/>
-        </xsl:when>
-        <xsl:when test="@value = 'AllSources'">
-          <xsl:attribute name="value" select="'AllSourcesWithTests'"/>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:copy>
-  </xsl:template>
-
-
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]
-    /option[@name = 'configuration']
-    /map
-    /entry[@key = 'active-configuration']
-  "/>
-
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]
-    /option[@name = 'configuration']
-    /map
-    /entry[$config-description and starts-with(@key, 'location-') and (starts-with(@value, concat($config-location-type, ':', $config-location, ':')) or ends-with(@value, concat(':', $config-description)))]
-  "/>
-
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]
-    /option[@name = 'configuration']
-    /map
-    /entry[@key = 'thirdparty-classpath']
-  "/>
-
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]
-    /option[@name = 'configuration']
-    /map
-  ">
-    <xsl:copy>
-      <xsl:apply-templates select="@*"/>
-      <xsl:apply-templates select="*[name() != 'entry']"/>
+      <xsl:apply-templates select="@*" mode="#current"/>
+      <xsl:apply-templates select="*[name() != 'entry']" mode="#current"/>
 
       <xsl:variable name="entry-nodes">
-        <xsl:apply-templates select="entry"/>
+        <xsl:apply-templates select="entry" mode="#current"/>
 
         <xsl:choose>
           <xsl:when test="$is-bundled-sun-checks">
@@ -96,8 +38,10 @@
             <entry key="active-configuration" value="BUNDLED:(bundled):Google Checks"/>
           </xsl:when>
           <xsl:when test="$config-location-type and $config-location and $config-description">
-            <entry key="active-configuration" value="{concat($config-location-type, ':', $config-location, ':', $config-description)}"/>
-            <entry key="location-" value="{concat($config-location-type, ':', $config-location, ':', $config-description)}"/>
+            <entry key="active-configuration"
+              value="{concat($config-location-type, ':', $config-location, ':', $config-description)}"/>
+            <entry key="location-"
+              value="{concat($config-location-type, ':', $config-location, ':', $config-description)}"/>
           </xsl:when>
         </xsl:choose>
 
@@ -112,41 +56,73 @@
     </xsl:copy>
   </xsl:template>
 
-
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and not(@serialisationVersion)]">
+  <xsl:template match="entry[@key = 'checkstyle-version']" mode="version-1">
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:apply-templates select="@*|node()" mode="#current"/>
+      <xsl:attribute name="value" select="$checkstyle-version"/>
     </xsl:copy>
   </xsl:template>
+
+  <xsl:template match="entry[@key = 'copy-libs']" mode="version-1">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" mode="#current"/>
+      <xsl:attribute name="value" select="'true'"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="entry[@key = 'scanscope']" mode="version-1">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" mode="#current"/>
+      <xsl:choose>
+        <xsl:when test="@value = 'JavaOnly'">
+          <xsl:attribute name="value" select="'JavaOnlyWithTests'"/>
+        </xsl:when>
+        <xsl:when test="@value = 'AllSources'">
+          <xsl:attribute name="value" select="'AllSourcesWithTests'"/>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="entry[@key = 'active-configuration']" mode="version-1"/>
+
+  <xsl:template match="entry[
+    $config-description
+    and starts-with(@key, 'location-')
+    and (
+      starts-with(@value, concat($config-location-type, ':', $config-location, ':'))
+      or ends-with(@value, concat(':', $config-description))
+    )
+  ]" mode="version-1"/>
+
+  <xsl:template match="entry[@key = 'thirdparty-classpath']" mode="version-1"/>
 
   <!-- #endregion -->
 
 
   <!-- #region Version 2 -->
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    /checkstyleVersion
-  ">
+  <xsl:template match="/project/component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']">
+    <xsl:apply-templates select="." mode="version-2"/>
+  </xsl:template>
+
+  <xsl:template match="checkstyleVersion" mode="version-2">
     <xsl:copy>
-      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:value-of select="$checkstyle-version"/>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    /copyLibs
-  ">
+  <xsl:template match="copyLibs" mode="version-2">
     <xsl:copy>
-      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:value-of select="'true'"/>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    /scanScope
-  ">
+  <xsl:template match="scanScope" mode="version-2">
     <xsl:copy>
-      <xsl:apply-templates select="@*"/>
+      <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:choose>
         <xsl:when test="normalize-space(.) = 'JavaOnly'">
           <xsl:value-of select="'JavaOnlyWithTests'"/>
@@ -155,28 +131,22 @@
           <xsl:value-of select="'AllSourcesWithTests'"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:apply-templates select="node()"/>
+          <xsl:apply-templates select="node()" mode="#current"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    /option[@name = 'thirdPartyClasspath']
-  "/>
+  <xsl:template match="option[@name = 'thirdPartyClasspath']" mode="version-2"/>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    /option[@name = 'activeLocationIds']
-  "/>
+  <xsl:template match="option[@name = 'activeLocationIds']" mode="version-2"/>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    /option[@name = 'locations']
-    /list
-  ">
+  <xsl:template match="option[@name = 'locations']/list" mode="version-2">
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:apply-templates select="@*|node()" mode="#current"/>
 
-      <xsl:variable name="config-location-node" select="ConfigurationLocation[@type != 'BUNDLED' and (normalize-space(.) = $config-location or @description = $config-description)]"/>
+      <xsl:variable name="config-location-node"
+        select="ConfigurationLocation[@type != 'BUNDLED' and (normalize-space(.) = $config-location or @description = $config-description)]"/>
       <xsl:variable name="config-location-node-id">
         <xsl:choose>
           <xsl:when test="$config-location-node">
@@ -198,16 +168,15 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    /option[@name = 'locations']
+  <xsl:template match="option[@name = 'locations']
     /list
     /ConfigurationLocation[@type != 'BUNDLED' and (normalize-space(.) = $config-location or @description = $config-description)]
-  "/>
+  " mode="version-2"/>
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']">
+  <xsl:template match="key('checkstyle-idea', '2')" mode="version-2">
     <xsl:copy>
-      <xsl:apply-templates select="@*"/>
-      <xsl:apply-templates select="*[name() != 'option']"/>
+      <xsl:apply-templates select="@*" mode="#current"/>
+      <xsl:apply-templates select="*[name() != 'option']" mode="#current"/>
 
       <xsl:if test="$thirdparty-classpath">
         <option name="thirdPartyClasspath">
@@ -220,15 +189,18 @@
       <option name="activeLocationIds">
         <xsl:choose>
           <xsl:when test="$is-bundled-sun-checks">
-            <xsl:variable name="sun-location-id" select="option[@name = 'locations']/list/ConfigurationLocation[@type = 'BUNDLED' and @description = 'Sun Checks']/@id"/>
+            <xsl:variable name="sun-location-id"
+              select="option[@name = 'locations']/list/ConfigurationLocation[@type = 'BUNDLED' and @description = 'Sun Checks']/@id"/>
             <option value="{$sun-location-id}"/>
           </xsl:when>
           <xsl:when test="$is-bundled-google-checks">
-            <xsl:variable name="google-location-id" select="option[@name = 'locations']/list/ConfigurationLocation[@type = 'BUNDLED' and @description = 'Google Checks']/@id"/>
+            <xsl:variable name="google-location-id"
+              select="option[@name = 'locations']/list/ConfigurationLocation[@type = 'BUNDLED' and @description = 'Google Checks']/@id"/>
             <option value="{$google-location-id}"/>
           </xsl:when>
           <xsl:when test="$config-location and $config-description">
-            <xsl:variable name="config-location-node" select="option[@name = 'locations']/list/ConfigurationLocation[@type != 'BUNDLED' and (normalize-space(.) = $config-location or @description = $config-description)]"/>
+            <xsl:variable name="config-location-node"
+              select="option[@name = 'locations']/list/ConfigurationLocation[@type != 'BUNDLED' and (normalize-space(.) = $config-location or @description = $config-description)]"/>
             <xsl:variable name="config-location-node-id">
               <xsl:choose>
                 <xsl:when test="$config-location-node">
@@ -244,7 +216,7 @@
         </xsl:choose>
       </option>
 
-      <xsl:apply-templates select="option[@name = 'locations']"/>
+      <xsl:apply-templates select="option[@name = 'locations']" mode="#current"/>
     </xsl:copy>
   </xsl:template>
 
@@ -253,11 +225,11 @@
 
   <!-- #region Unknown version -->
 
-  <xsl:template match="component[@name = 'CheckStyle-IDEA']" priority="-10">
+  <xsl:template match="/project/component[@name = 'CheckStyle-IDEA']" priority="-10">
     <xsl:message select="concat('IDEA component ', @name, ': Unsupported @serialisationVersion: ', @serialisationVersion)"/>
 
     <xsl:copy>
-      <xsl:apply-templates select="@* | node()"/>
+      <xsl:apply-templates select="@*|node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
 

@@ -1,19 +1,21 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
-import static name.remal.gradleplugins.ideasettings.internal.XslUtils.transformXmlProvider;
+import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
 
+import java.net.URI;
+import lombok.SneakyThrows;
 import name.remal.gradle_plugins.api.AutoService;
 import name.remal.gradleplugins.ideasettings.IdeaXmlFilePostProcessor;
-import org.gradle.api.XmlProvider;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 @AutoService(IdeaXmlFilePostProcessor.class)
-public class NormalizationIdeaXmlFilePostProcessor implements IdeaXmlFilePostProcessor {
+public class NormalizationIdeaXmlFilePostProcessor extends AbstractXsltIdeaXmlFilePostProcessor {
 
     @Override
-    public void execute(XmlProvider xmlProvider) {
-        transformXmlProvider(xmlProvider, "normalize.xsl");
+    @SneakyThrows
+    protected URI getTemplateUri() {
+        return getResourceUrl("normalize.xsl").toURI();
     }
 
 }

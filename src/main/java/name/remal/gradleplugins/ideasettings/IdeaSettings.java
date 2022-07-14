@@ -1,25 +1,35 @@
 package name.remal.gradleplugins.ideasettings;
 
+import static java.util.Collections.emptyMap;
 import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.val;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileInitializer;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileProcessor;
+import name.remal.gradleplugins.ideasettings.internal.XsltFileIdeaXmlFileInitializer;
+import name.remal.gradleplugins.ideasettings.internal.XsltFileIdeaXmlFileProcessor;
+import name.remal.gradleplugins.ideasettings.internal.XsltIdeaXmlFilePostProcessor;
 import org.gradle.api.Action;
 import org.gradle.api.GradleException;
+import org.gradle.api.Project;
 import org.gradle.api.XmlProvider;
-import org.gradle.api.model.ObjectFactory;
 import org.w3c.dom.Document;
 
 @Data
@@ -34,6 +44,27 @@ public class IdeaSettings {
 
     public boolean isEnabled() {
         return this.enabled || isExplicitlyEnabled();
+    }
+
+
+    private final IdeaCheckstyleSettings checkstyle;
+
+    public void checkstyle(Action<IdeaCheckstyleSettings> action) {
+        action.execute(checkstyle);
+    }
+
+
+    private final IdeaRunOnSaveSettings runOnSave;
+
+    public void runOnSave(Action<IdeaRunOnSaveSettings> action) {
+        action.execute(runOnSave);
+    }
+
+
+    private final Set<String> requiredPlugins = new TreeSet<>();
+
+    public void setRequiredPlugins(Iterable<? extends CharSequence> requiredPlugins) {
+        setStringsCollectionFromIterable(this.requiredPlugins, requiredPlugins);
     }
 
 
@@ -52,6 +83,28 @@ public class IdeaSettings {
         }
     }
 
+    /**
+     * @param xsltTemplateFile Resolves a file path relative to the project directory of this project. See
+     *     {@link Project#file(Object)}.
+     */
+    public void setXmlFileInitializerXslt(
+        String relativeFilePath,
+        Object xsltTemplateFile,
+        Map<String, Object> templateParams
+    ) {
+        val xsltTemplateUri = project.file(xsltTemplateFile).toURI();
+        setXmlFileInitializer(relativeFilePath, new XsltFileIdeaXmlFileInitializer(xsltTemplateUri, templateParams));
+    }
+
+    /**
+     * See {@link #setXmlFileInitializerXslt(String, Object, Map)}.
+     */
+    public void setXmlFileInitializerXslt(
+        String relativeFilePath,
+        Object xsltTemplateFile
+    ) {
+        setXmlFileInitializerXslt(relativeFilePath, xsltTemplateFile, emptyMap());
+    }
 
     private final Map<String, List<Action<XmlProvider>>> xmlFilesProcessors = new LinkedHashMap<>();
 
@@ -66,29 +119,72 @@ public class IdeaSettings {
             .add(action);
     }
 
+    /**
+     * @param xsltTemplateFile Resolves a file path relative to the project directory of this project. See
+     *     {@link Project#file(Object)}.
+     */
+    public void processXmlFileWithXslt(
+        String relativeFilePath,
+        Object xsltTemplateFile,
+        Map<String, Object> xsltTemplateParams
+    ) {
+        val xsltTemplateUri = project.file(xsltTemplateFile).toURI();
+        processXmlFile(relativeFilePath, new XsltFileIdeaXmlFileProcessor(xsltTemplateUri, xsltTemplateParams));
+    }
+
+    /**
+     * See {@link #processXmlFileWithXslt(String, Object, Map)}.
+     */
+    public void processXmlFileWithXslt(
+        String relativeFilePath,
+        Object xsltTemplateFile
+    ) {
+        processXmlFileWithXslt(relativeFilePath, xsltTemplateFile, emptyMap());
+    }
+
 
     private final List<Action<XmlProvider>> xmlFilesPostProcessors = new ArrayList<>();
 
     {
         streamServices(IdeaXmlFilePostProcessor.class)
-            .forEach(this::addXmlFilePostProcessor);
+            .forEach(this::addXmlFilesPostProcessor);
     }
 
-    public void addXmlFilePostProcessor(Action<XmlProvider> postProcessor) {
+    public void addXmlFilesPostProcessor(Action<XmlProvider> postProcessor) {
         this.xmlFilesPostProcessors.add(postProcessor);
     }
 
+    /**
+     * @param xsltTemplateFile Resolves a file path relative to the project directory of this project. See
+     *     {@link Project#file(Object)}.
+     */
+    public void addXmlFilesXsltPostProcessor(
+        Object xsltTemplateFile,
+        Map<String, Object> templateParams
+    ) {
+        val xsltTemplateUri = project.file(xsltTemplateFile).toURI();
+        addXmlFilesPostProcessor(new XsltIdeaXmlFilePostProcessor(xsltTemplateUri, templateParams));
+    }
 
-    private final IdeaCheckstyleSettings checkstyle;
-
-    public void checkstyle(Action<IdeaCheckstyleSettings> action) {
-        action.execute(checkstyle);
+    /**
+     * See {@link #addXmlFilesXsltPostProcessor(Object, Map)}.
+     */
+    public void addXmlFilesXsltPostProcessor(
+        Object xsltTemplateFile
+    ) {
+        addXmlFilesXsltPostProcessor(xsltTemplateFile, emptyMap());
     }
 
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private final Project project;
+
     @Inject
-    public IdeaSettings(ObjectFactory objectFactory) {
-        this.checkstyle = objectFactory.newInstance(IdeaCheckstyleSettings.class);
+    public IdeaSettings(Project project) {
+        this.project = project;
+        this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class);
+        this.runOnSave = project.getObjects().newInstance(IdeaRunOnSaveSettings.class);
     }
 
 
@@ -103,6 +199,18 @@ public class IdeaSettings {
 
         return relativeFilePath;
     }
+
+    static void setStringsCollectionFromIterable(
+        Collection<String> collection,
+        Iterable<? extends CharSequence> iterable
+    ) {
+        collection.clear();
+        StreamSupport.stream(iterable.spliterator(), false)
+            .filter(Objects::nonNull)
+            .map(Object::toString)
+            .forEach(collection::add);
+    }
+
 
     private static <T> Stream<T> streamServices(Class<T> serviceType) {
         return StreamSupport.stream(

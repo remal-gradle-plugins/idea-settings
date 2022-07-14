@@ -5,6 +5,6 @@
 
   <xsl:import href="utils.xsl"/>
 
-  <xsl:template match="component[@name = 'ExternalStorageConfigurationManager']"/>
+  <xsl:template match="/project/component[@name = 'ExternalStorageConfigurationManager']"/>
 
 </xsl:stylesheet>

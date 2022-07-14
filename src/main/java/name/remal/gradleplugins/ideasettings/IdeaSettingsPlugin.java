@@ -33,6 +33,7 @@ import java.util.function.Supplier;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import lombok.val;
+import name.remal.gradleplugins.ideasettings.internal.IdeaXmlFileAction;
 import name.remal.gradleplugins.toolkit.EditorConfig;
 import name.remal.gradleplugins.toolkit.PluginDescription;
 import name.remal.gradleplugins.toolkit.SneakyThrowUtils.SneakyThrowsAction;

@@ -3,23 +3,31 @@ package name.remal.gradleplugins.ideasettings.internal;
 import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.net.URI;
+import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
 import name.remal.gradle_plugins.api.AutoService;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 @AutoService(SpecificIdeaXmlFileProcessor.class)
-public class DisableExternalStorageConfigurationManager extends AbstractXsltSpecificIdeaXmlFileProcessor {
+public class RequirePlugins extends AbstractXsltSpecificIdeaXmlFileProcessor {
 
     @Override
     public String getRelativeFilePath() {
-        return "misc.xml";
+        return "externalDependencies.xml";
     }
 
     @Override
     @SneakyThrows
     protected URI getTemplateUri() {
-        return getResourceUrl("disable-external-storage-configuration-manager.xsl").toURI();
+        return getResourceUrl("required-plugins-add.xsl").toURI();
+    }
+
+    @Override
+    protected void configureTransformer(Transformer transformer) {
+        super.configureTransformer(transformer);
+
+        transformer.setParameter("plugin-ids", getIdeaSettings().getRequiredPlugins());
     }
 
 }

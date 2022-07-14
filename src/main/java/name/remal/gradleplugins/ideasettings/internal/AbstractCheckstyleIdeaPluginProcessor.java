@@ -25,14 +25,15 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 
 @Internal
 @Getter(PROTECTED)
-abstract class AbstractCheckstyleIIeaSpecificIdeaXmlFileProcessor implements SpecificIdeaXmlFileProcessor {
+abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecificIdeaXmlFileProcessor {
 
     private boolean enabled = false;
 
     @Override
-    public boolean isEnabled() {
+    public final boolean isEnabled() {
         return enabled;
     }
+
 
     @Nullable
     private Path rootDirPath;
@@ -53,6 +54,8 @@ abstract class AbstractCheckstyleIIeaSpecificIdeaXmlFileProcessor implements Spe
     @Override
     @MustBeInvokedByOverriders
     public void setProject(Project project) {
+        super.setProject(project);
+
         val checkstyleProject = project.getAllprojects().stream()
             .filter(it -> it.getPluginManager().hasPlugin("checkstyle"))
             .findFirst()
@@ -81,7 +84,7 @@ abstract class AbstractCheckstyleIIeaSpecificIdeaXmlFileProcessor implements Spe
             val consumableConfigurationName = join(
                 "$",
                 originalCheckstyleConfiguration.getName(),
-                AbstractCheckstyleIIeaSpecificIdeaXmlFileProcessor.class.getSimpleName()
+                AbstractCheckstyleIdeaPluginProcessor.class.getSimpleName()
             );
             final Configuration consumableConfiguration;
             if (checkstyleProject.getConfigurations().findByName(consumableConfigurationName) == null) {
@@ -129,12 +132,16 @@ abstract class AbstractCheckstyleIIeaSpecificIdeaXmlFileProcessor implements Spe
     @Override
     @MustBeInvokedByOverriders
     public void setIdeaDirPath(Path ideaDirPath) {
+        super.setIdeaDirPath(ideaDirPath);
+
         this.rootDirPath = ideaDirPath.getParent();
     }
 
     @Override
     @MustBeInvokedByOverriders
     public void setIdeaSettings(IdeaSettings ideaSettings) {
+        super.setIdeaSettings(ideaSettings);
+
         val checkstyleSettings = ideaSettings.getCheckstyle();
         if (checkstyleSettings.isBundledSunChecksEnabled()) {
             this.bundledSunChecksEnabled = true;

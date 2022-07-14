@@ -1,5 +1,6 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
+import static name.remal.gradleplugins.ideasettings.internal.SaveActionsPluginUtils.isSaveActionsPluginConfigured;
 import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.net.URI;
@@ -9,11 +10,16 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 @AutoService(SpecificIdeaXmlFileInitializer.class)
-public class InitializeExternalDependencies extends AbstractXsltSpecificIdeaXmlFileInitializer {
+public class SaveActionsPluginConfigurationInitializer extends AbstractXsltSpecificIdeaXmlFileInitializer {
 
     @Override
     public String getRelativeFilePath() {
-        return "externalDependencies.xml";
+        return "saveactions_settings.xml";
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isSaveActionsPluginConfigured(getIdeaSettings().getRunOnSave());
     }
 
     @Override

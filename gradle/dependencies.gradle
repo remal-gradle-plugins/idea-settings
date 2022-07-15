@@ -24,7 +24,7 @@ allprojects {
                 'com.google.guava:guava:31.1-jre',
                 'net.sf.saxon:Saxon-HE:11.3',
                 'org.xmlunit:xmlunit-core:2.9.0',
-                'name.remal:gradle-plugins-api:1.6.0',
+                'name.remal:gradle-plugins-api:1.7.0',
 
                 // Compile
                 'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.5',

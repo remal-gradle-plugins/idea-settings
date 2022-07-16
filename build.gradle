@@ -8,7 +8,7 @@ buildscript {
         classpath 'name.remal:gradle-plugins:1.6.0'
         classpath 'io.github.gradle-nexus:publish-plugin:1.1.0'
         classpath 'net.ltgt.gradle:gradle-errorprone-plugin:2.0.2'
-        classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2-SNAPSHOT'
+        //classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2-SNAPSHOT'
     }
     repositories {
         gradlePluginPortal()
@@ -44,7 +44,7 @@ apply from: 'gradle/ide.gradle'
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-//*
+/*
 apply plugin: 'name.remal.idea-settings2'
 
 ideaSettings {

@@ -1,9 +1,7 @@
 package name.remal.gradleplugins.ideasettings;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.newBufferedWriter;
-import static java.nio.file.Files.readAllBytes;
 import static java.util.Arrays.stream;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
@@ -18,8 +16,8 @@ import static name.remal.gradleplugins.toolkit.ProjectUtils.getTopLevelDirOf;
 import static name.remal.gradleplugins.toolkit.SneakyThrowUtils.sneakyThrows;
 import static name.remal.gradleplugins.toolkit.git.GitUtils.findGitRepositoryRootFor;
 import static name.remal.gradleplugins.toolkit.reflection.MethodsInvoker.invokeMethod;
+import static name.remal.gradleplugins.toolkit.xml.XmlProviderImpl.newXmlProviderForFile;
 import static name.remal.gradleplugins.toolkit.xml.XmlUtils.compactXmlString;
-import static name.remal.gradleplugins.toolkit.xml.XmlUtils.parseXml;
 import static name.remal.gradleplugins.toolkit.xml.XmlUtils.prettyXmlString;
 
 import java.io.File;
@@ -28,7 +26,6 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Supplier;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
@@ -187,13 +184,13 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
 
         invokeMethod(ideaExt, "withIDEADir",
             Action.class, sneakyThrows((SneakyThrowsAction<File>) ideaDir -> {
-                val ideaDirPath = normalizePath(ideaDir.toPath());
+                val normalizedIdeaDir = normalizePath(ideaDir.toPath());
 
                 settingsXmlFileInitializers.forEach((relativeFilePath, initializer) -> {
                     initializeIdeaProjectFile(
                         project,
                         ideaSettings,
-                        ideaDirPath,
+                        normalizedIdeaDir,
                         relativeFilePath,
                         initializer
                     );
@@ -206,12 +203,12 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
     private static void initializeIdeaProjectFile(
         Project project,
         IdeaSettings ideaSettings,
-        Path ideaDirPath,
+        Path ideaDir,
         String relativeFilePath,
         Supplier<Document> initializer
     ) {
         relativeFilePath = canonizeIdeaSettingsRelativeFilePath(relativeFilePath);
-        val ideaFilePath = ideaDirPath.resolve(relativeFilePath);
+        val ideaFilePath = ideaDir.resolve(relativeFilePath);
         if (exists(ideaFilePath)) {
             return;
         }
@@ -219,7 +216,7 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
         if (initializer instanceof IdeaXmlFileAction) {
             val ideaXmlFileAction = (IdeaXmlFileAction) initializer;
             ideaXmlFileAction.setProject(project.getRootProject());
-            ideaXmlFileAction.setIdeaDirPath(ideaDirPath);
+            ideaXmlFileAction.setIdeaDir(ideaDir);
             ideaXmlFileAction.setIdeaSettings(ideaSettings);
 
             if (!ideaXmlFileAction.isEnabled()) {
@@ -230,7 +227,7 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
         val document = initializer.get();
 
         val xmlProvider = new XmlProviderImpl(document);
-        executePostProcessors(project, ideaSettings, ideaDirPath, xmlProvider);
+        executePostProcessors(project, ideaSettings, ideaDir, xmlProvider);
 
         val xmlFormat = XML_FORMAT;
         val prettyXml = prettyXmlString(xmlProvider.asString().toString(), xmlFormat);
@@ -253,13 +250,13 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
 
         invokeMethod(ideaExt, "withIDEADir",
             Action.class, sneakyThrows((SneakyThrowsAction<File>) ideaDir -> {
-                val ideaDirPath = normalizePath(ideaDir.toPath());
+                val normalizedIdeaDir = normalizePath(ideaDir.toPath());
 
                 settingsXmlFilesProcessors.forEach((relativeFilePath, processors) -> {
-                    processIdeaProjectFile(
+                    processIdeaProjectFiles(
                         project,
                         ideaSettings,
-                        ideaDirPath,
+                        normalizedIdeaDir,
                         relativeFilePath,
                         processors
                     );
@@ -269,16 +266,41 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
     }
 
     @SneakyThrows
-    private static void processIdeaProjectFile(
+    private static void processIdeaProjectFiles(
         Project project,
         IdeaSettings ideaSettings,
-        Path ideaDirPath,
+        Path ideaDir,
         String relativeFilePath,
         List<Action<XmlProvider>> processors
     ) {
-        relativeFilePath = canonizeIdeaSettingsRelativeFilePath(relativeFilePath);
-        val ideaFilePath = ideaDirPath.resolve(relativeFilePath);
-        if (!exists(ideaFilePath)) {
+        val canonizedRelativeFilePath = canonizeIdeaSettingsRelativeFilePath(relativeFilePath);
+        project.files(ideaDir).getAsFileTree()
+            .matching(it -> it.include(canonizedRelativeFilePath))
+            .visit(details -> {
+                if (details.isDirectory()) {
+                    return;
+                }
+
+                val ideaFile = normalizePath(details.getFile().toPath());
+                processIdeaProjectFile(
+                    project,
+                    ideaSettings,
+                    ideaDir,
+                    ideaFile,
+                    processors
+                );
+            });
+    }
+
+    @SneakyThrows
+    private static void processIdeaProjectFile(
+        Project project,
+        IdeaSettings ideaSettings,
+        Path ideaDir,
+        Path ideaFile,
+        List<Action<XmlProvider>> processors
+    ) {
+        if (!exists(ideaFile)) {
             return;
         }
 
@@ -287,7 +309,7 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
                 if (processor instanceof IdeaXmlFileAction) {
                     val ideaXmlFileAction = (IdeaXmlFileAction) processor;
                     ideaXmlFileAction.setProject(project.getRootProject());
-                    ideaXmlFileAction.setIdeaDirPath(ideaDirPath);
+                    ideaXmlFileAction.setIdeaDir(ideaDir);
                     ideaXmlFileAction.setIdeaSettings(ideaSettings);
                     return ideaXmlFileAction.isEnabled();
 
@@ -300,21 +322,17 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
             return;
         }
 
-        val contentBytes = readAllBytes(ideaFilePath);
-        val charset = Optional.ofNullable(parseXml(contentBytes).getXmlEncoding())
-            .map(Charset::forName)
-            .orElse(UTF_8);
-        val xmlBefore = new String(contentBytes, charset);
+        val xmlProvider = newXmlProviderForFile(ideaFile);
+        val xmlBefore = xmlProvider.asString().toString();
 
-        val xmlProvider = new XmlProviderImpl(xmlBefore);
         processors.forEach(processor -> processor.execute(xmlProvider));
-        executePostProcessors(project, ideaSettings, ideaDirPath, xmlProvider);
+        executePostProcessors(project, ideaSettings, ideaDir, xmlProvider);
 
         val xmlAfter = compactXmlString(xmlProvider.asString().toString());
         if (isDifferentXml(xmlBefore, xmlAfter)) {
             val xmlFormat = XML_FORMAT;
             val prettyXml = prettyXmlString(xmlAfter, xmlFormat);
-            try (val writer = newBufferedWriter(ideaFilePath, xmlFormat.getCharset())) {
+            try (val writer = newBufferedWriter(ideaFile, xmlFormat.getCharset())) {
                 writer.write(prettyXml);
             }
         }
@@ -324,7 +342,7 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
     private static void executePostProcessors(
         Project project,
         IdeaSettings ideaSettings,
-        Path ideaDirPath,
+        Path ideaDir,
         XmlProvider xmlProvider
     ) {
         ideaSettings.getXmlFilesPostProcessors().stream()
@@ -332,7 +350,7 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
                 if (postProcessor instanceof IdeaXmlFileAction) {
                     val ideaXmlFileAction = (IdeaXmlFileAction) postProcessor;
                     ideaXmlFileAction.setProject(project.getRootProject());
-                    ideaXmlFileAction.setIdeaDirPath(ideaDirPath);
+                    ideaXmlFileAction.setIdeaDir(ideaDir);
                     ideaXmlFileAction.setIdeaSettings(ideaSettings);
                     return ideaXmlFileAction.isEnabled();
 

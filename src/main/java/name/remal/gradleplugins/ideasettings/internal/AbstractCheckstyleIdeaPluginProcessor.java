@@ -36,7 +36,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
 
 
     @Nullable
-    private Path rootDirPath;
+    private Path projectRootDir;
 
     @Nullable
     private String version;
@@ -131,10 +131,10 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
 
     @Override
     @MustBeInvokedByOverriders
-    public void setIdeaDirPath(Path ideaDirPath) {
-        super.setIdeaDirPath(ideaDirPath);
+    public void setIdeaDir(Path ideaDir) {
+        super.setIdeaDir(ideaDir);
 
-        this.rootDirPath = ideaDirPath.getParent();
+        this.projectRootDir = ideaDir.getParent();
     }
 
     @Override

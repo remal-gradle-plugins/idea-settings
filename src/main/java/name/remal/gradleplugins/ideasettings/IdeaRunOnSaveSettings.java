@@ -1,9 +1,5 @@
 package name.remal.gradleplugins.ideasettings;
 
-import static name.remal.gradleplugins.ideasettings.IdeaSettings.setStringsCollectionFromIterable;
-
-import java.util.Set;
-import java.util.TreeSet;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import lombok.Data;
@@ -21,6 +17,14 @@ public class IdeaRunOnSaveSettings {
     @Nullable
     private Boolean optimizeImports;
 
+
+    @Inject
+    public IdeaRunOnSaveSettings() {
+        // do nothing
+    }
+
+
+    /*
     private final Set<String> enabledCustomPluginActions = new TreeSet<>();
 
     public void setEnabledCustomPluginActions(Iterable<? extends CharSequence> enabledCustomPluginActions) {
@@ -32,11 +36,6 @@ public class IdeaRunOnSaveSettings {
     public void setDisabledCustomPluginActions(Iterable<? extends CharSequence> disabledCustomPluginActions) {
         setStringsCollectionFromIterable(this.disabledCustomPluginActions, disabledCustomPluginActions);
     }
-
-
-    @Inject
-    public IdeaRunOnSaveSettings() {
-        // do nothing
-    }
+    */
 
 }

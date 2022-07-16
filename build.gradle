@@ -51,13 +51,6 @@ ideaSettings {
     runOnSave {
         reformatMode = 'WHOLE_FILE'
         optimizeImports = true
-        enabledCustomPluginActions += [
-            'missingOverrideAnnotation',
-            'useBlocks',
-            'finalPrivateMethod',
-            'explicitTypeCanBeDiamond',
-            'unnecessarySemicolon',
-        ]
     }
 }
 //*/

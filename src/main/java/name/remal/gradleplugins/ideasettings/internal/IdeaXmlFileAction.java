@@ -12,7 +12,7 @@ public interface IdeaXmlFileAction {
         // do nothing
     }
 
-    default void setIdeaDirPath(Path ideaDirPath) {
+    default void setIdeaDir(Path ideaDir) {
         // do nothing
     }
 

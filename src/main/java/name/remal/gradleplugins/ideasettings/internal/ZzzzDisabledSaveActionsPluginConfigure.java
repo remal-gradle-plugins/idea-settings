@@ -6,12 +6,11 @@ import java.net.URI;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
 import lombok.val;
-import name.remal.gradle_plugins.api.AutoService;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
-@AutoService(SpecificIdeaXmlFileProcessor.class)
-public class SaveActionsPluginConfigure extends AbstractXsltSpecificIdeaXmlFileProcessor {
+//@AutoService(SpecificIdeaXmlFileProcessor.class)
+public class ZzzzDisabledSaveActionsPluginConfigure extends AbstractXsltSpecificIdeaXmlFileProcessor {
 
     @Override
     public String getRelativeFilePath() {
@@ -21,7 +20,7 @@ public class SaveActionsPluginConfigure extends AbstractXsltSpecificIdeaXmlFileP
     @Override
     @SneakyThrows
     protected URI getTemplateUri() {
-        return getResourceUrl("run-on-save-configure-plugin.xsl").toURI();
+        return getResourceUrl("zzzz-disabled-run-on-save-configure-plugin.xsl").toURI();
     }
 
     @Override
@@ -31,8 +30,8 @@ public class SaveActionsPluginConfigure extends AbstractXsltSpecificIdeaXmlFileP
         val runOnSaveSettings = getIdeaSettings().getRunOnSave();
         transformer.setParameter("reformat-mode", String.valueOf(runOnSaveSettings.getReformatMode()));
         transformer.setParameter("optimize-imports", String.valueOf(runOnSaveSettings.getOptimizeImports()));
-        transformer.setParameter("custom-actions-enabled", runOnSaveSettings.getEnabledCustomPluginActions());
-        transformer.setParameter("custom-actions-disabled", runOnSaveSettings.getDisabledCustomPluginActions());
+        //transformer.setParameter("custom-actions-enabled", runOnSaveSettings.getEnabledCustomPluginActions());
+        //transformer.setParameter("custom-actions-disabled", runOnSaveSettings.getDisabledCustomPluginActions());
     }
 
 }

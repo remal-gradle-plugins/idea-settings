@@ -47,10 +47,10 @@ public class IdeaSettings {
     }
 
 
-    private final IdeaCheckstyleSettings checkstyle;
+    private final Set<String> requiredPlugins = new TreeSet<>();
 
-    public void checkstyle(Action<IdeaCheckstyleSettings> action) {
-        action.execute(checkstyle);
+    public void setRequiredPlugins(Iterable<? extends CharSequence> requiredPlugins) {
+        setStringsCollectionFromIterable(this.requiredPlugins, requiredPlugins);
     }
 
 
@@ -61,10 +61,17 @@ public class IdeaSettings {
     }
 
 
-    private final Set<String> requiredPlugins = new TreeSet<>();
+    private final IdeaCheckstyleSettings checkstyle;
 
-    public void setRequiredPlugins(Iterable<? extends CharSequence> requiredPlugins) {
-        setStringsCollectionFromIterable(this.requiredPlugins, requiredPlugins);
+    public void checkstyle(Action<IdeaCheckstyleSettings> action) {
+        action.execute(checkstyle);
+    }
+
+
+    private final IdeaDatabaseSettings database;
+
+    public void database(Action<IdeaDatabaseSettings> action) {
+        action.execute(database);
     }
 
 
@@ -183,8 +190,9 @@ public class IdeaSettings {
     @Inject
     public IdeaSettings(Project project) {
         this.project = project;
-        this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class);
         this.runOnSave = project.getObjects().newInstance(IdeaRunOnSaveSettings.class);
+        this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class);
+        this.database = project.getObjects().newInstance(IdeaDatabaseSettings.class);
     }
 
 

@@ -1,6 +1,5 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
-import static name.remal.gradleplugins.ideasettings.internal.SaveActionsPluginUtils.isSaveActionsPluginConfigured;
 import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.net.URI;
@@ -10,16 +9,16 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 @AutoService(SpecificIdeaXmlFileInitializer.class)
-public class SaveActionsPluginConfigurationInitializer extends AbstractXsltSpecificIdeaXmlFileInitializer {
+public class SqlDialectsConfigurationInitializer extends AbstractXsltSpecificIdeaXmlFileInitializer {
 
     @Override
     public String getRelativeFilePath() {
-        return "saveactions_settings.xml";
+        return "sqldialects.xml";
     }
 
     @Override
     public boolean isEnabled() {
-        return isSaveActionsPluginConfigured(getIdeaSettings().getRunOnSave());
+        return isConfigured(getIdeaSettings().getDatabase());
     }
 
     @Override

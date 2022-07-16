@@ -42,7 +42,7 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
         val configFilePathString = getConfigFilePath();
         if (configFilePathString != null) {
             val configFilePath = normalizePath(Paths.get(configFilePathString));
-            val rootDirPath = getRootDirPath();
+            val rootDirPath = getProjectRootDir();
             val configFileRelativePath = rootDirPath != null && configFilePath.startsWith(rootDirPath)
                 ? rootDirPath.relativize(configFilePath)
                 : configFilePath;
@@ -75,7 +75,7 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
     }
 
     private String relativizeThirdPartyClasspathPath(Path path) {
-        val rootDirPath = getRootDirPath();
+        val rootDirPath = getProjectRootDir();
         val resultPath = rootDirPath != null && path.startsWith(rootDirPath)
             ? rootDirPath.relativize(path)
             : path;

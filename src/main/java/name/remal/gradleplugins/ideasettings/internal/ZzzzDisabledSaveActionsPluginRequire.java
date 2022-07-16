@@ -1,18 +1,16 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
 import static name.remal.gradleplugins.ideasettings.internal.AllIdeaPlugins.SAVE_ACTIONS_IDEA_PLUGIN_ID;
-import static name.remal.gradleplugins.ideasettings.internal.SaveActionsPluginUtils.isSaveActionsPluginConfigured;
 import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.net.URI;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
-import name.remal.gradle_plugins.api.AutoService;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
-@AutoService(SpecificIdeaXmlFileProcessor.class)
-public class SaveActionsPluginRequire extends AbstractXsltSpecificIdeaXmlFileProcessor {
+//@AutoService(SpecificIdeaXmlFileProcessor.class)
+public class ZzzzDisabledSaveActionsPluginRequire extends AbstractXsltSpecificIdeaXmlFileProcessor {
 
     @Override
     public String getRelativeFilePath() {
@@ -21,7 +19,7 @@ public class SaveActionsPluginRequire extends AbstractXsltSpecificIdeaXmlFilePro
 
     @Override
     public boolean isEnabled() {
-        return isSaveActionsPluginConfigured(getIdeaSettings().getRunOnSave());
+        return isConfigured(getIdeaSettings().getRunOnSave());
     }
 
     @Override

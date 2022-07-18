@@ -3,5 +3,17 @@
   "extends": [
     "github>remal-gradle-plugins/plugins-renovate-config:base"
   ],
-  "packageRules": []
+  "packageRules": [
+    {
+      "description": [
+        "plugin-api",
+        ":",
+        "Plugin API dependencies for ':' Gradle project"
+      ],
+      "packageNames": [
+        "gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext"
+      ],
+      "commitMessageTopic": "plugin API dependency {{depName}}"
+    }
+  ]
 }

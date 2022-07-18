@@ -8,7 +8,6 @@ buildscript {
         classpath 'name.remal:gradle-plugins:1.7.0'
         classpath 'io.github.gradle-nexus:publish-plugin:1.1.0'
         classpath 'net.ltgt.gradle:gradle-errorprone-plugin:2.0.2'
-        //classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2-SNAPSHOT'
     }
     repositories {
         gradlePluginPortal()
@@ -44,23 +43,6 @@ apply from: 'gradle/ide.gradle'
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/*
-apply plugin: 'name.remal.idea-settings2'
-
-ideaSettings {
-    runOnSave {
-        reformatMode = 'WHOLE_FILE'
-        optimizeImports = true
-    }
-}
-//*/
-
-tasks.matching { it.name == 'processIdeaSettings' }.configureEach {
-    doFirst { project.file('layout.json').bytes = project.file('layout.json.bak').bytes }
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 apply plugin: 'java-gradle-plugin'
 
 dependencies {
@@ -72,12 +54,15 @@ dependencies {
     relocateClasses 'org.xmlunit:xmlunit-core'
 
     api 'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext'
+
+
+    testImplementation 'org.json:json'
 }
 
 gradlePlugin {
     plugins {
-        'name.remal.idea-settings2' {
-            id = 'name.remal.idea-settings2'
+        'name.remal.idea-settings' {
+            id = 'name.remal.idea-settings'
             implementationClass = 'name.remal.gradleplugins.ideasettings.IdeaSettingsPlugin'
             displayName = 'Configure IntelliJ IDEA project'
             description = property('repository-description')

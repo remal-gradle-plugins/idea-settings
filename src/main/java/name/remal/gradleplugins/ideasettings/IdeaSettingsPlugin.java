@@ -59,7 +59,7 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
             throw new GradleException("name.remal.idea-settings plugin can be applied for root project only");
         }
 
-        val ideaSettings = project.getExtensions().create(IDEA_SETTINGS_EXTENSION_NAME, IdeaSettings.class);
+        val ideaSettings = project.getExtensions().create(IDEA_SETTINGS_EXTENSION_NAME, IdeaSettings.class, project);
 
         val topLevelDirPath = getTopLevelDirOf(project);
         val repositoryRootPath = findGitRepositoryRootFor(topLevelDirPath);

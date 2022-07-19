@@ -178,13 +178,13 @@
       <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:apply-templates select="*[name() != 'option']" mode="#current"/>
 
-      <xsl:if test="$thirdparty-classpath">
-        <option name="thirdPartyClasspath">
+      <option name="thirdPartyClasspath">
+        <xsl:if test="$thirdparty-classpath">
           <xsl:for-each select="$thirdparty-classpath">
             <option value="{.}"/>
           </xsl:for-each>
-        </option>
-      </xsl:if>
+        </xsl:if>
+      </option>
 
       <option name="activeLocationIds">
         <xsl:choose>

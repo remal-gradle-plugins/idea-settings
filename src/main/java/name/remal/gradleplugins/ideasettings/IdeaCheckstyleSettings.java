@@ -3,6 +3,7 @@ package name.remal.gradleplugins.ideasettings;
 import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
 
 import javax.annotation.Nullable;
+import javax.inject.Inject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -47,6 +48,7 @@ public class IdeaCheckstyleSettings {
     @ToString.Exclude
     private final Project project;
 
+    @Inject
     public IdeaCheckstyleSettings(Project project) {
         this.project = project;
     }

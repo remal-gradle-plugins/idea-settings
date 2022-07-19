@@ -173,7 +173,7 @@
     /ConfigurationLocation[@type != 'BUNDLED' and (normalize-space(.) = $config-location or @description = $config-description)]
   " mode="version-2"/>
 
-  <xsl:template match="/project/component[@name = 'CheckStyle-IDEA']" mode="version-2">
+  <xsl:template match="component[@name = 'CheckStyle-IDEA']" mode="version-2">
     <xsl:copy>
       <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:apply-templates select="*[name() != 'option']" mode="#current"/>

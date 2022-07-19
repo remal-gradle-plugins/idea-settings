@@ -10,12 +10,17 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 @AutoService(IdeaXmlFilePostProcessor.class)
-public class NormalizationIdeaXmlFilePostProcessor extends AbstractXsltIdeaXmlFilePostProcessor {
+public class NormalizationSortIdeaXmlFilePostProcessor extends AbstractXsltIdeaXmlFilePostProcessor {
 
     @Override
     @SneakyThrows
     protected URI getTemplateUri() {
-        return getResourceUrl("normalize.xsl").toURI();
+        return getResourceUrl("normalization-sort.xsl").toURI();
+    }
+
+    @Override
+    public int getOrder() {
+        return Integer.MAX_VALUE;
     }
 
 }

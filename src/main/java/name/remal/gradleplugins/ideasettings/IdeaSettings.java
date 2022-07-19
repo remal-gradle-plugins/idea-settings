@@ -21,6 +21,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.val;
+import name.remal.gradleplugins.ideasettings.internal.IdeaXmlFileAction;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileInitializer;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileProcessor;
 import name.remal.gradleplugins.ideasettings.internal.XsltFileIdeaXmlFileInitializer;
@@ -220,11 +221,12 @@ public class IdeaSettings {
     }
 
 
-    private static <T> Stream<T> streamServices(Class<T> serviceType) {
+    private static <T extends IdeaXmlFileAction> Stream<T> streamServices(Class<T> serviceType) {
         return StreamSupport.stream(
-            ServiceLoader.load(serviceType, IdeaSettings.class.getClassLoader()).spliterator(),
-            false
-        );
+                ServiceLoader.load(serviceType, IdeaSettings.class.getClassLoader()).spliterator(),
+                false
+            )
+            .sorted();
     }
 
 }

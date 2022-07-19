@@ -1,9 +1,12 @@
+import groovy.json.JsonBuilder
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 buildscript {
     dependencies {
         classpath 'name.remal.gradle-plugins.test-source-sets:test-source-sets:2.2.3'
         classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2.0.0-rc-3'
+        //classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2-SNAPSHOT'
         classpath 'com.gradle.publish:plugin-publish-plugin:1.0.0'
         classpath 'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.5'
         classpath 'name.remal:gradle-plugins:1.7.0'
@@ -41,6 +44,22 @@ apply from: 'gradle/signing.gradle'
 apply from: 'gradle/process-readme.gradle'
 apply from: 'gradle/renovate.gradle'
 apply from: 'gradle/ide.gradle'
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+tasks.named('processIdeaSettings') {
+    if (project.isNotRunningOnCi && gradle.startParameter.taskNames.contains('processIdeaSettingsDebug')) {
+        doFirst {
+            String jsonString = new JsonBuilder([ideaDirPath: rootProject.file('.idea').absolutePath]).toPrettyString()
+            rootProject.file('layout.json').setText(jsonString, 'UTF-8')
+        }
+    }
+}
+
+tasks.create('processIdeaSettingsDebug') {
+    group = 'debug'
+    dependsOn('processIdeaSettings')
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 

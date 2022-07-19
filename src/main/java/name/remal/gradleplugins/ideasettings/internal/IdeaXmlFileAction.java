@@ -6,7 +6,7 @@ import org.gradle.api.Project;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
-public interface IdeaXmlFileAction {
+public interface IdeaXmlFileAction extends Comparable<IdeaXmlFileAction> {
 
     default void setProject(Project project) {
         // do nothing
@@ -22,6 +22,19 @@ public interface IdeaXmlFileAction {
 
     default boolean isEnabled() {
         return true;
+    }
+
+    default int getOrder() {
+        return 0;
+    }
+
+    @Override
+    default int compareTo(IdeaXmlFileAction other) {
+        int result = Integer.compare(this.getOrder(), other.getOrder());
+        if (result == 0) {
+            result = this.getClass().getName().compareTo(other.getClass().getName());
+        }
+        return result;
     }
 
 }

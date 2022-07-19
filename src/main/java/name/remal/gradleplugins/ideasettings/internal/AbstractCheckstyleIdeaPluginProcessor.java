@@ -148,9 +148,8 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
         } else if (checkstyleSettings.isBundledGoogleChecksEnabled()) {
             this.bundledGoogleChecksEnabled = true;
         } else {
-            if (this.configFilePath == null) {
-                this.configFilePath = checkstyleSettings.getConfigFilePath();
-            }
+            Optional.ofNullable(checkstyleSettings.getConfigFilePath())
+                .ifPresent(it -> this.configFilePath = it);
         }
     }
 

@@ -68,7 +68,8 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
             && !ideaSettings.isExplicitlyEnabled()
         ) {
             logger.warn(
-                "Skipping logic of {}, as top level dir ({}) differs from Git repository root ({})",
+                "Skipping logic of {}, as top level dir ({}) differs from Git repository root ({}). You can "
+                    + "explicitly enable this plugin by executing `ideaSettings.explicitlyEnabled = true`.",
                 new PluginDescription(IdeaSettingsPlugin.class),
                 topLevelDirPath,
                 repositoryRootPath

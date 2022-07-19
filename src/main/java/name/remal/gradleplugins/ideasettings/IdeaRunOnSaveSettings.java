@@ -1,7 +1,6 @@
 package name.remal.gradleplugins.ideasettings;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
 import lombok.Data;
 
 @Data
@@ -18,7 +17,6 @@ public class IdeaRunOnSaveSettings {
     private Boolean optimizeImports;
 
 
-    @Inject
     public IdeaRunOnSaveSettings() {
         // do nothing
     }

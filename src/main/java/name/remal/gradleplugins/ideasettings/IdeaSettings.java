@@ -16,7 +16,6 @@ import java.util.TreeSet;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.inject.Inject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -187,11 +186,10 @@ public class IdeaSettings {
     @ToString.Exclude
     private final Project project;
 
-    @Inject
     public IdeaSettings(Project project) {
         this.project = project;
         this.runOnSave = project.getObjects().newInstance(IdeaRunOnSaveSettings.class);
-        this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class);
+        this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class, project);
         this.database = project.getObjects().newInstance(IdeaDatabaseSettings.class);
     }
 

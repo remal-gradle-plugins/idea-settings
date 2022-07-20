@@ -12,14 +12,37 @@
     | *[recent]
     | *[text()[normalize-space(.) != '']]
     | component[@name = 'CheckStyle-IDEA' and @serialisationVersion = '2']
-    | component[@name = 'InspectionProjectProfileManager']
     | component[@name = 'FrameworkDetectionExcludesConfiguration']
-  " priority="999">
+  " priority="10">
     <xsl:copy-of select="."/>
   </xsl:template>
 
 
-  <xsl:template match="*">
+  <xsl:template match="component[@name = 'InspectionProjectProfileManager']/profile">
+    <xsl:copy>
+      <xsl:apply-templates select="@*"/>
+
+      <xsl:apply-templates select="node()[
+        name() != 'option'
+        and name() != 'inspection_tool'
+      ]"/>
+
+      <xsl:apply-templates select="option">
+        <xsl:sort select="@name"/>
+      </xsl:apply-templates>
+
+      <xsl:apply-templates select="inspection_tool">
+        <xsl:sort select="@class"/>
+      </xsl:apply-templates>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="component[@name = 'InspectionProjectProfileManager']/profile//node()">
+    <xsl:copy-of select="."/>
+  </xsl:template>
+
+
+  <xsl:template match="*" priority="-10">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
 

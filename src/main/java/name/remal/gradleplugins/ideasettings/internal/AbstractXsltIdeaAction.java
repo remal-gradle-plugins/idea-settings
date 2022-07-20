@@ -19,7 +19,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
 
 @Internal
-abstract class AbstractXsltIdeaAction implements IdeaXmlFileAction {
+abstract class AbstractXsltIdeaAction implements IdeaXmlFileSettingsAction {
 
     private static final String IDEA_DIR_PARAM = "idea-dir";
 

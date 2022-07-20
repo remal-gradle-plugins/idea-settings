@@ -4,6 +4,7 @@ import static java.util.Collections.emptyMap;
 import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -21,7 +22,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.val;
-import name.remal.gradleplugins.ideasettings.internal.IdeaXmlFileAction;
+import name.remal.gradleplugins.ideasettings.internal.IdeaSettingsAction;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileInitializer;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileProcessor;
 import name.remal.gradleplugins.ideasettings.internal.XsltFileIdeaXmlFileInitializer;
@@ -73,6 +74,18 @@ public class IdeaSettings {
 
     public void database(Action<IdeaDatabaseSettings> action) {
         action.execute(database);
+    }
+
+
+    private final List<Action<Path>> ideaDirProcessors = new ArrayList<>();
+
+    {
+        streamServices(IdeaDirProcessor.class)
+            .forEach(this::addIdeaDirProcessor);
+    }
+
+    public void addIdeaDirProcessor(Action<Path> processor) {
+        ideaDirProcessors.add(processor);
     }
 
 
@@ -221,9 +234,9 @@ public class IdeaSettings {
     }
 
 
-    private static <T extends IdeaXmlFileAction> Stream<T> streamServices(Class<T> serviceType) {
+    private static <T extends IdeaSettingsAction> Stream<T> streamServices(Class<T> serviceType) {
         return StreamSupport.stream(
-                ServiceLoader.load(serviceType, IdeaSettings.class.getClassLoader()).spliterator(),
+                ServiceLoader.load(serviceType, serviceType.getClassLoader()).spliterator(),
                 false
             )
             .sorted();

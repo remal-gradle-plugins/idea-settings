@@ -30,7 +30,8 @@ import java.util.function.Supplier;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import lombok.val;
-import name.remal.gradleplugins.ideasettings.internal.IdeaXmlFileAction;
+import name.remal.gradleplugins.ideasettings.internal.IdeaSettingsAction;
+import name.remal.gradleplugins.ideasettings.internal.IdeaXmlFileSettingsAction;
 import name.remal.gradleplugins.toolkit.EditorConfig;
 import name.remal.gradleplugins.toolkit.PluginDescription;
 import name.remal.gradleplugins.toolkit.SneakyThrowUtils.SneakyThrowsAction;
@@ -97,8 +98,8 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
         val ideaExt = getExtension(ideaProject, "settings");
 
         configureEncodings(project, ideaExt, editorConfig);
-
         delegateBuildToGradle(ideaExt);
+        processIdeaDir(project, ideaExt, ideaSettings);
         initializeIdeaProjectFiles(project, ideaExt, ideaSettings);
         processIdeaProjectFiles(project, ideaExt, ideaSettings);
     }
@@ -173,6 +174,46 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
     }
 
 
+    private static void processIdeaDir(
+        Project project,
+        Object ideaExt,
+        IdeaSettings ideaSettings
+    ) {
+        val ideaDirProcessors = ideaSettings.getIdeaDirProcessors();
+        if (ideaDirProcessors.isEmpty()) {
+            return;
+        }
+
+        invokeMethod(ideaExt, "withIDEADir",
+            Action.class, sneakyThrows((SneakyThrowsAction<File>) ideaDir -> {
+                val normalizedIdeaDir = normalizePath(ideaDir.toPath());
+
+                ideaDirProcessors.forEach(processor -> {
+                    processIdeaDir(
+                        project,
+                        ideaSettings,
+                        normalizedIdeaDir,
+                        processor
+                    );
+                });
+            })
+        );
+    }
+
+    private static void processIdeaDir(
+        Project project,
+        IdeaSettings ideaSettings,
+        Path ideaDir,
+        Action<Path> processor
+    ) {
+        if (!initializeIdeaSettingsAction(processor, ideaDir, project, ideaSettings)) {
+            return;
+        }
+
+        processor.execute(ideaDir);
+    }
+
+
     private static void initializeIdeaProjectFiles(
         Project project,
         Object ideaExt,
@@ -214,15 +255,8 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
             return;
         }
 
-        if (initializer instanceof IdeaXmlFileAction) {
-            val ideaXmlFileAction = (IdeaXmlFileAction) initializer;
-            ideaXmlFileAction.setProject(project.getRootProject());
-            ideaXmlFileAction.setIdeaDir(ideaDir);
-            ideaXmlFileAction.setIdeaSettings(ideaSettings);
-
-            if (!ideaXmlFileAction.isEnabled()) {
-                return;
-            }
+        if (!initializeIdeaSettingsAction(initializer, ideaDir, project, ideaSettings)) {
+            return;
         }
 
         val document = initializer.get();
@@ -306,18 +340,9 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
         }
 
         processors = processors.stream()
-            .filter(processor -> {
-                if (processor instanceof IdeaXmlFileAction) {
-                    val ideaXmlFileAction = (IdeaXmlFileAction) processor;
-                    ideaXmlFileAction.setProject(project.getRootProject());
-                    ideaXmlFileAction.setIdeaDir(ideaDir);
-                    ideaXmlFileAction.setIdeaSettings(ideaSettings);
-                    return ideaXmlFileAction.isEnabled();
-
-                } else {
-                    return true;
-                }
-            })
+            .filter(processor ->
+                initializeIdeaSettingsAction(processor, ideaDir, project, ideaSettings)
+            )
             .collect(toList());
         if (processors.isEmpty()) {
             return;
@@ -347,18 +372,9 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
         XmlProvider xmlProvider
     ) {
         ideaSettings.getXmlFilesPostProcessors().stream()
-            .filter(postProcessor -> {
-                if (postProcessor instanceof IdeaXmlFileAction) {
-                    val ideaXmlFileAction = (IdeaXmlFileAction) postProcessor;
-                    ideaXmlFileAction.setProject(project.getRootProject());
-                    ideaXmlFileAction.setIdeaDir(ideaDir);
-                    ideaXmlFileAction.setIdeaSettings(ideaSettings);
-                    return ideaXmlFileAction.isEnabled();
-
-                } else {
-                    return true;
-                }
-            })
+            .filter(postProcessor ->
+                initializeIdeaSettingsAction(postProcessor, ideaDir, project, ideaSettings)
+            )
             .forEach(postProcessor -> {
                 postProcessor.execute(xmlProvider);
             });
@@ -378,6 +394,30 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
             .ignoreComments()
             .build();
         return diff.hasDifferences();
+    }
+
+
+    /**
+     * @return {@code true} is the action is enabled, {@code false} is the action is disabled
+     */
+    private static boolean initializeIdeaSettingsAction(
+        Object action,
+        Path ideaDir,
+        Project project,
+        IdeaSettings ideaSettings
+    ) {
+        if (action instanceof IdeaXmlFileSettingsAction) {
+            val typedAction = (IdeaXmlFileSettingsAction) action;
+            typedAction.setIdeaDir(ideaDir);
+        }
+        if (action instanceof IdeaSettingsAction) {
+            val typedAction = (IdeaSettingsAction) action;
+            typedAction.setProject(project.getRootProject());
+            typedAction.setIdeaSettings(ideaSettings);
+            return typedAction.isEnabled();
+        }
+
+        return true;
     }
 
 }

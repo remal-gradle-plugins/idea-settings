@@ -1,8 +1,8 @@
 package name.remal.gradleplugins.ideasettings;
 
+import java.nio.file.Path;
 import name.remal.gradleplugins.ideasettings.internal.IdeaXmlFileSettingsAction;
 import org.gradle.api.Action;
-import org.gradle.api.XmlProvider;
 
-public interface IdeaXmlFileProcessor extends Action<XmlProvider>, IdeaXmlFileSettingsAction {
+public interface IdeaDirProcessor extends IdeaXmlFileSettingsAction, Action<Path> {
 }

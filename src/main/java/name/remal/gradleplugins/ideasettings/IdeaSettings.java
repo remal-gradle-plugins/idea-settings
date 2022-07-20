@@ -2,6 +2,7 @@ package name.remal.gradleplugins.ideasettings;
 
 import static java.util.Collections.emptyMap;
 import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
+import static name.remal.gradleplugins.toolkit.PathUtils.normalizePath;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -17,6 +18,7 @@ import java.util.TreeSet;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -53,6 +55,14 @@ public class IdeaSettings {
 
     public void setRequiredPlugins(Iterable<? extends CharSequence> requiredPlugins) {
         setStringsCollectionFromIterable(this.requiredPlugins, requiredPlugins);
+    }
+
+
+    @Nullable
+    private Path externalAnnotationsRootDir;
+
+    public void setExternalAnnotationsRootDir(@Nullable Object dir) {
+        this.externalAnnotationsRootDir = dir != null ? normalizePath(project.file(dir).toPath()) : null;
     }
 
 

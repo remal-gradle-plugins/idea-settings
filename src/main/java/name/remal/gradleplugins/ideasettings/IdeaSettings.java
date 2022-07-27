@@ -1,5 +1,6 @@
 package name.remal.gradleplugins.ideasettings;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.util.Collections.emptyMap;
 import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
 import static name.remal.gradleplugins.toolkit.PathUtils.normalizePath;
@@ -210,6 +211,9 @@ public class IdeaSettings {
     @Inject
     public IdeaSettings(Project project) {
         this.project = project;
+        this.explicitlyEnabled = parseBoolean(String.valueOf(project.findProperty(
+            IDEA_SETTINGS_EXTENSION_NAME + ".explicitlyEnabled"
+        )));
         this.runOnSave = project.getObjects().newInstance(IdeaRunOnSaveSettings.class);
         this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class, project);
         this.database = project.getObjects().newInstance(IdeaDatabaseSettings.class);

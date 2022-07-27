@@ -46,10 +46,6 @@ public class IdeaSettings {
 
     private boolean explicitlyEnabled = false;
 
-    public boolean isEnabled() {
-        return this.enabled || isExplicitlyEnabled();
-    }
-
 
     private final Set<String> requiredPlugins = new TreeSet<>();
 

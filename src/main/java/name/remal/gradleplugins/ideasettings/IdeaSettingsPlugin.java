@@ -62,33 +62,27 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
 
         val ideaSettings = project.getExtensions().create(IDEA_SETTINGS_EXTENSION_NAME, IdeaSettings.class, project);
 
-        val topLevelDirPath = getTopLevelDirOf(project);
-        val repositoryRootPath = findGitRepositoryRootFor(topLevelDirPath);
-        if (repositoryRootPath != null
-            && !topLevelDirPath.equals(repositoryRootPath)
-            && !ideaSettings.isExplicitlyEnabled()
-        ) {
-            logger.warn(
-                "Skipping logic of {}, as top level dir ({}) differs from Git repository root ({}). You can "
-                    + "explicitly enable this plugin by executing `ideaSettings.explicitlyEnabled = true`.",
-                new PluginDescription(IdeaSettingsPlugin.class),
-                topLevelDirPath,
-                repositoryRootPath
-            );
-            ideaSettings.setEnabled(false);
-        }
-
-        if (ideaSettings.isEnabled()) {
-            afterEvaluateOrNow(project, __ -> configure(project, ideaSettings));
-        }
+        afterEvaluateOrNow(project, __ -> configure(project, ideaSettings));
     }
 
     private static void configure(Project project, IdeaSettings ideaSettings) {
         project.getPluginManager().apply("idea");
         project.getPluginManager().apply("org.jetbrains.gradle.plugin.idea-ext");
 
-        if (!ideaSettings.isEnabled()) {
-            return;
+        if (!ideaSettings.isExplicitlyEnabled()) {
+            val topLevelDirPath = getTopLevelDirOf(project);
+            val repositoryRootPath = findGitRepositoryRootFor(topLevelDirPath);
+            if (repositoryRootPath != null && !topLevelDirPath.equals(repositoryRootPath)) {
+                logger.warn(
+                    "Skipping logic of {}, as top level dir ({}) differs from Git repository root ({}). You can "
+                        + "explicitly enable this plugin by executing `ideaSettings.explicitlyEnabled = true`.",
+                    new PluginDescription(IdeaSettingsPlugin.class),
+                    topLevelDirPath,
+                    repositoryRootPath
+                );
+                ideaSettings.setEnabled(false);
+                return;
+            }
         }
 
         val editorConfig = new EditorConfig(project);

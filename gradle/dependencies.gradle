@@ -22,7 +22,7 @@ allprojects {
 
                 // Compile-only
                 'com.google.guava:guava:31.1-jre',
-                'net.sf.saxon:Saxon-HE:11.3',
+                'net.sf.saxon:Saxon-HE:11.4',
                 'org.xmlunit:xmlunit-core:2.9.0',
                 'name.remal:gradle-plugins-api:1.7.0',
 

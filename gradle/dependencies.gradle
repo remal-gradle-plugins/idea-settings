@@ -27,7 +27,7 @@ allprojects {
                 'name.remal:gradle-plugins-api:1.7.0',
 
                 // Compile
-                'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.5',
+                'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.6',
                 "name.remal.gradle-api:local-groovy:${property('gradle-api.version')}",
                 "name.remal.gradle-api:gradle-api:${property('gradle-api.version')}",
 

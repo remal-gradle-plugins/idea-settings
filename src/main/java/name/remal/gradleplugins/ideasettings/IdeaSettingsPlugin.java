@@ -66,9 +66,6 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
     }
 
     private static void configure(Project project, IdeaSettings ideaSettings) {
-        project.getPluginManager().apply("idea");
-        project.getPluginManager().apply("org.jetbrains.gradle.plugin.idea-ext");
-
         if (!ideaSettings.isExplicitlyEnabled()) {
             val topLevelDirPath = getTopLevelDirOf(project);
             val repositoryRootPath = findGitRepositoryRootFor(topLevelDirPath);
@@ -84,6 +81,9 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
                 return;
             }
         }
+
+        project.getPluginManager().apply("idea");
+        project.getPluginManager().apply("org.jetbrains.gradle.plugin.idea-ext");
 
         val editorConfig = new EditorConfig(project);
 

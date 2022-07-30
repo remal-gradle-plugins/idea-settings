@@ -18,4 +18,9 @@ public class NormalizationFixesIdeaXmlFilePostProcessor extends AbstractXsltIdea
         return getResourceUrl("normalization-fixes.xsl").toURI();
     }
 
+    @Override
+    public int getOrder() {
+        return -1000;
+    }
+
 }

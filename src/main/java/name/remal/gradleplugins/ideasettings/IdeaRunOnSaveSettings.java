@@ -2,9 +2,11 @@ package name.remal.gradleplugins.ideasettings;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class IdeaRunOnSaveSettings {
 
     public enum ReformatMode {

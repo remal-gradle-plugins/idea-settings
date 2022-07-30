@@ -1,10 +1,14 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
+import static java.util.stream.Collectors.toList;
+import static name.remal.gradleplugins.toolkit.PredicateUtils.not;
 import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.net.URI;
+import java.util.Objects;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
+import lombok.val;
 import name.remal.gradle_plugins.api.AutoService;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -27,7 +31,14 @@ public class RequirePlugins extends AbstractXsltSpecificIdeaXmlFileProcessor {
     protected void configureTransformer(Transformer transformer) {
         super.configureTransformer(transformer);
 
-        transformer.setParameter("plugin-ids", getIdeaSettings().getRequiredPlugins());
+        val requiredPlugins = getIdeaSettings().getRequiredPlugins().stream()
+            .filter(Objects::nonNull)
+            .map(Object::toString)
+            .map(String::trim)
+            .filter(not(String::isEmpty))
+            .distinct()
+            .collect(toList());
+        transformer.setParameter("plugin-ids", requiredPlugins);
     }
 
 }

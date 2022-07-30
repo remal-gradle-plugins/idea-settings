@@ -16,15 +16,15 @@ If minimum `targetCompatibility` is equal or more than Java 9, encoding from `.e
 
 Transparent native-to-ascii conversion will be enabled for all encodings except `UTF-8`.
 
-## Enables [delegating Run/Build and Test actions](https://github.com/JetBrains/gradle-idea-ext-plugin/wiki#delegating-runbuild-and-test-actions) to Gradle
+## Enables delegating Run/Build and Test actions to Gradle
 
 This plugin [delegates Run/Build and Test actions](https://github.com/JetBrains/gradle-idea-ext-plugin/wiki#delegating-runbuild-and-test-actions) to Gradle.
 
-## Enables [EditorConfig support](https://www.jetbrains.com/help/idea/editorconfig.html)
+## Enables EditorConfig support
 
 This plugin enables [EditorConfig support](https://www.jetbrains.com/help/idea/editorconfig.html).
 
-## Allows to add [required plugins](https://www.jetbrains.com/help/idea/managing-plugins.html#required-plugins)
+## Allows to add required plugins
 
 To add a [required plugin](https://www.jetbrains.com/help/idea/managing-plugins.html#required-plugins):
 
@@ -37,7 +37,7 @@ ideaSettings {
 }
 ```
 
-## Configures [Actions on Save](https://www.jetbrains.com/help/idea/saving-and-reverting-changes.html#actions-on-save)
+## Configures Actions on Save
 
 Native IDEA [Actions on Save](https://www.jetbrains.com/help/idea/saving-and-reverting-changes.html#actions-on-save) functionality is used.
 
@@ -68,7 +68,7 @@ ideaSettings {
 
 IntelliJ IDEA picks up these changes only by restarting.
 
-## Configures [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) plugin
+## Configures CheckStyle-IDEA plugin
 
 If any of the Gradle projects uses [`checkstyle`](https://docs.gradle.org/current/userguide/checkstyle_plugin.html) Gradle plugin, [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/1065-checkstyle-idea) plugin will be configured:
 
@@ -88,7 +88,7 @@ ideaSettings {
 }
 ```
 
-## Configures IDEA Ultimate default project [SQL dialect](https://www.jetbrains.com/help/idea/settings-languages-sql-dialects.html)
+## Configures IDEA Ultimate default project SQL dialect
 
 For those developers who use IntelliJ IDEA Ultimate, a default project [SQL dialect](https://www.jetbrains.com/help/idea/settings-languages-sql-dialects.html) can be configured:
 
@@ -96,6 +96,23 @@ For those developers who use IntelliJ IDEA Ultimate, a default project [SQL dial
 ideaSettings {
   database {
     defaultDialect = 'PostgreSQL'
+  }
+}
+```
+
+## Configures [Run/debug configurations](https://www.jetbrains.com/help/idea/run-debug-configuration.html)
+
+This plugin can add default JVM parameters to IDEA's Java application run configuration and [Spring Boot run configuration](https://www.jetbrains.com/help/idea/run-debug-configuration-spring-boot.html).
+
+```groovy
+ideaSettings {
+  runConfigurations {
+    javaApplication {
+      jvmParameters += [
+        '-Xmx1G',
+        '-Pspring.profiles.active=local'
+      ]
+    }
   }
 }
 ```

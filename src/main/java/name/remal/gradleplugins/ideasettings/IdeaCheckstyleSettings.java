@@ -4,12 +4,14 @@ import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.gradle.api.Project;
 
-@Data
+@Getter
+@Setter
 public class IdeaCheckstyleSettings {
 
     private static final String BUNDLED_CONFIG_FILE_PATH_PREFIX = doNotInline("$;bundled;$:");

@@ -1,50 +1,47 @@
 package name.remal.gradleplugins.ideasettings;
 
-import java.util.Collection;
-import javax.annotation.Nullable;
+import static name.remal.gradleplugins.toolkit.PropertiesConventionUtils.setPropertyConvention;
+
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.gradle.api.Action;
 import org.gradle.api.JavaVersion;
 import org.gradle.api.Project;
 
-@Data
+@Getter
+@Setter
 public class IdeaRunConfigurationsSettings {
 
-    private final IdeaJavaApplicationRunConfigurationsSettings javaApplication;
+    private final IdeaJavaAppRunConfigurationsSettings javaApplication;
 
-    public void java(Action<IdeaJavaApplicationRunConfigurationsSettings> action) {
+    public void javaApplication(Action<IdeaJavaAppRunConfigurationsSettings> action) {
         action.execute(javaApplication);
     }
 
-    @Data
-    public static class IdeaJavaApplicationRunConfigurationsSettings {
+    @Getter
+    @Setter
+    public static class IdeaJavaAppRunConfigurationsSettings {
 
-        private Boolean shortenCommandLine = JavaVersion.VERSION_1_9.isJava9Compatible();
+        private JavaVersion javaVersion = JavaVersion.current();
 
-    }
+        private List<String> jvmParameters = new ArrayList<>();
 
-
-    private final IdeaSpringBootApplicationRunConfigurationsSettings springBootApplication;
-
-    public void springBoot(Action<IdeaSpringBootApplicationRunConfigurationsSettings> action) {
-        action.execute(springBootApplication);
-    }
-
-    @Data
-    public static class IdeaSpringBootApplicationRunConfigurationsSettings {
-
-        @Nullable
-        private Collection<String> activeProfiles;
+        private Boolean shortenCommandLine;
 
     }
-
 
     @Inject
     public IdeaRunConfigurationsSettings(Project project) {
-        this.javaApplication = project.getObjects().newInstance(IdeaJavaApplicationRunConfigurationsSettings.class);
-        this.springBootApplication = project.getObjects()
-            .newInstance(IdeaSpringBootApplicationRunConfigurationsSettings.class);
+        this.javaApplication = project.getObjects().newInstance(IdeaJavaAppRunConfigurationsSettings.class);
+
+        setPropertyConvention(
+            this.javaApplication,
+            "shortenCommandLine",
+            it -> it.getJavaVersion().isJava9Compatible()
+        );
     }
 
 }

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 //@AutoService(SpecificIdeaXmlFileInitializer.class)
-public class ZzzzDisabledSaveActionsPluginConfigurationInitializer
+public class ZzzzSaveActionsPluginConfigurationInitializer
     extends AbstractProjectNodeSpecificIdeaXmlFileInitializer {
 
     @Override

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 //@AutoService(SpecificIdeaXmlFileProcessor.class)
-public class ZzzzDisabledSaveActionsPluginConfigure extends AbstractXsltSpecificIdeaXmlFileProcessor {
+public class ZzzzSaveActionsPluginConfigure extends AbstractXsltSpecificIdeaXmlFileProcessor {
 
     @Override
     public String getRelativeFilePath() {

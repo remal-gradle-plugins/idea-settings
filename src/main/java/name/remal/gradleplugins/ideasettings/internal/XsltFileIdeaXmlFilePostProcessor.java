@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
 @RequiredArgsConstructor
-public class XsltIdeaXmlFilePostProcessor extends AbstractXsltIdeaXmlFilePostProcessor {
+public class XsltFileIdeaXmlFilePostProcessor extends AbstractXsltIdeaXmlFilePostProcessor {
 
     private final URI templateUri;
     private final Map<String, Object> templateParams;

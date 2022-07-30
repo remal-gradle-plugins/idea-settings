@@ -4,9 +4,9 @@ import groovy.json.JsonBuilder
 
 buildscript {
     dependencies {
-        //classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2-SNAPSHOT'
         classpath 'name.remal.gradle-plugins.test-source-sets:test-source-sets:2.2.3'
         classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2.0.0-rc-7'
+        //classpath 'name.remal.gradle-plugins.idea-settings:idea-settings:2-SNAPSHOT'
         classpath 'com.gradle.publish:plugin-publish-plugin:1.0.0'
         classpath 'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.6'
         classpath 'name.remal:gradle-plugins:1.7.0'

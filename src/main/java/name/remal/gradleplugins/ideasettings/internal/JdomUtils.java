@@ -5,11 +5,18 @@ import static name.remal.gradleplugins.toolkit.xml.XmlProviderUtils.replaceXmlPr
 import static org.jdom2.output.Format.getCompactFormat;
 
 import java.io.StringReader;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.Nullable;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.gradle.api.XmlProvider;
 import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.filter.ElementFilter;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.XMLOutputter;
@@ -49,6 +56,51 @@ abstract class JdomUtils {
     public static void replaceXmlProviderContentWithJdom(XmlProvider xmlProvider, Document document) {
         val content = compactJdomString(document);
         replaceXmlProviderContent(xmlProvider, content);
+    }
+
+
+    public static Element ensureJdomElement(Element parentNode, String elementName, Map<String, Object> attrs) {
+        val element = findJdomElement(parentNode, elementName, attrs);
+        if (element != null) {
+            return element;
+        }
+
+        val newElement = new Element(elementName);
+        attrs.forEach((attrName, attrValue) -> {
+            if (attrValue != null) {
+                newElement.setAttribute(attrName, attrValue.toString());
+            }
+        });
+        parentNode.addContent(newElement);
+        return newElement;
+    }
+
+    public static void detachJdomElement(Element parentNode, String elementName, Map<String, Object> attrs) {
+        Optional.ofNullable(findJdomElement(parentNode, elementName, attrs))
+            .ifPresent(Element::detach);
+    }
+
+    @Nullable
+    public static Element findJdomElement(Element parentNode, String elementName, Map<String, Object> attrs) {
+        Map<String, String> normalizedAttrs = new LinkedHashMap<>();
+        for (val entry : attrs.entrySet()) {
+            val value = entry.getValue();
+            normalizedAttrs.put(entry.getKey(), value != null ? value.toString() : null);
+        }
+
+        val candidates = parentNode.getContent(new ElementFilter(elementName));
+        for (val candidate : candidates) {
+            val matches = normalizedAttrs.entrySet().stream()
+                .allMatch(entry -> {
+                    val attrValue = candidate.getAttributeValue(entry.getKey());
+                    return Objects.equals(attrValue, entry.getValue());
+                });
+            if (matches) {
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
 }

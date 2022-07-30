@@ -21,23 +21,25 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.val;
 import name.remal.gradleplugins.ideasettings.internal.IdeaSettingsAction;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileInitializer;
 import name.remal.gradleplugins.ideasettings.internal.SpecificIdeaXmlFileProcessor;
 import name.remal.gradleplugins.ideasettings.internal.XsltFileIdeaXmlFileInitializer;
+import name.remal.gradleplugins.ideasettings.internal.XsltFileIdeaXmlFilePostProcessor;
 import name.remal.gradleplugins.ideasettings.internal.XsltFileIdeaXmlFileProcessor;
-import name.remal.gradleplugins.ideasettings.internal.XsltIdeaXmlFilePostProcessor;
 import org.gradle.api.Action;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.XmlProvider;
 import org.w3c.dom.Document;
 
-@Data
+@Getter
+@Setter
 public class IdeaSettings {
 
     public static final String IDEA_SETTINGS_EXTENSION_NAME = doNotInline("ideaSettings");
@@ -77,10 +79,6 @@ public class IdeaSettings {
     }
 
 
-    /**
-     * @deprecated not implemented yet
-     */
-    @Deprecated
     private final IdeaRunConfigurationsSettings runConfigurations;
 
     public void runConfigurations(Action<IdeaRunConfigurationsSettings> action) {
@@ -202,7 +200,7 @@ public class IdeaSettings {
         Map<String, Object> templateParams
     ) {
         val xsltTemplateUri = project.file(xsltTemplateFile).toURI();
-        addXmlFilesPostProcessor(new XsltIdeaXmlFilePostProcessor(xsltTemplateUri, templateParams));
+        addXmlFilesPostProcessor(new XsltFileIdeaXmlFilePostProcessor(xsltTemplateUri, templateParams));
     }
 
     /**

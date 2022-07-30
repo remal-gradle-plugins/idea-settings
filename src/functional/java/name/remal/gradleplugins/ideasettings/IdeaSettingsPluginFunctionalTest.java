@@ -40,4 +40,12 @@ class IdeaSettingsPluginFunctionalTest {
         project.assertBuildSuccessfully();
     }
 
+    @Test
+    void checkstyle() {
+        project.forBuildFile(build -> {
+            build.applyPlugin("checkstyle");
+        });
+        project.assertBuildSuccessfully();
+    }
+
 }

@@ -1,6 +1,6 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
-import static name.remal.gradleplugins.ideasettings.internal.XslUtils.generateDocumentWithXslt;
+import static name.remal.gradleplugins.ideasettings.internal.XsltUtils.generateDocumentWithXslt;
 
 import name.remal.gradleplugins.ideasettings.IdeaXmlFileInitializer;
 import org.jetbrains.annotations.ApiStatus.Internal;

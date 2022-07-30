@@ -77,6 +77,17 @@ public class IdeaSettings {
     }
 
 
+    /**
+     * @deprecated not implemented yet
+     */
+    @Deprecated
+    private final IdeaRunConfigurationsSettings runConfigurations;
+
+    public void runConfigurations(Action<IdeaRunConfigurationsSettings> action) {
+        action.execute(runConfigurations);
+    }
+
+
     private final IdeaDatabaseSettings database;
 
     public void database(Action<IdeaDatabaseSettings> action) {
@@ -216,6 +227,7 @@ public class IdeaSettings {
         )));
         this.runOnSave = project.getObjects().newInstance(IdeaRunOnSaveSettings.class);
         this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class, project);
+        this.runConfigurations = project.getObjects().newInstance(IdeaRunConfigurationsSettings.class, project);
         this.database = project.getObjects().newInstance(IdeaDatabaseSettings.class);
     }
 

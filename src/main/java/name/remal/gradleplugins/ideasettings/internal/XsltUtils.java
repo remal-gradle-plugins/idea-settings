@@ -41,7 +41,7 @@ import org.w3c.dom.Document;
 @NoArgsConstructor(access = PRIVATE)
 @RelocatePackages("net.sf.saxon")
 @CustomLog
-abstract class XslUtils {
+abstract class XsltUtils {
 
     private static final String CLASSPATH_PROTOCOL = "classpath";
     private static final String FILE_PROTOCOL = "file";
@@ -161,7 +161,7 @@ abstract class XslUtils {
             }
         });
 
-        transformerFactory.setURIResolver(XslUtils::resolveUri);
+        transformerFactory.setURIResolver(XsltUtils::resolveUri);
 
         transformerFactory.getConfiguration().setLogger(new Logger() {
             @Override
@@ -232,7 +232,7 @@ abstract class XslUtils {
             final byte[] resourceBytes;
             if (CLASSPATH_PROTOCOL.equals(resultUri.getScheme())) {
                 val resourceName = resultUri.getPath();
-                resourceBytes = readResource(resourceName, XslUtils.class);
+                resourceBytes = readResource(resourceName, XsltUtils.class);
             } else {
                 val url = resultUri.toURL();
                 val connection = url.openConnection();

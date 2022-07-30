@@ -67,6 +67,7 @@ apply plugin: 'java-gradle-plugin'
 
 dependencies {
     relocateClasses 'com.google.guava:guava'
+    relocateClasses 'org.jdom:jdom'
     relocateClasses('net.sf.saxon:Saxon-HE') {
         exclude(group: 'xml-apis')
         exclude(group: 'org.apache.httpcomponents')

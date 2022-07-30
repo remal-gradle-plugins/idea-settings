@@ -1,6 +1,6 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
-import static name.remal.gradleplugins.ideasettings.internal.XslUtils.transformXmlProvider;
+import static name.remal.gradleplugins.ideasettings.internal.XsltUtils.transformXmlProvider;
 
 import name.remal.gradleplugins.ideasettings.IdeaXmlFileProcessor;
 import org.gradle.api.XmlProvider;

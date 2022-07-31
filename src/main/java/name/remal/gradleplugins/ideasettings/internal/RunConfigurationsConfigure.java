@@ -3,7 +3,6 @@ package name.remal.gradleplugins.ideasettings.internal;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.stream;
-import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toCollection;
@@ -18,7 +17,6 @@ import static name.remal.gradleplugins.toolkit.PredicateUtils.not;
 import static name.remal.gradleplugins.toolkit.PredicateUtils.startsWithString;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -69,9 +67,9 @@ public class RunConfigurationsConfigure
 
     private void processJavaApplicationRunConfiguration(Element configuration) {
         processShortenCommandLine(
-            () -> ensureJdomElement(configuration, "shortenClasspath", emptyMap())
+            () -> ensureJdomElement(configuration, "shortenClasspath")
                 .setAttribute("name", "ARGS_FILE"),
-            () -> detachJdomElement(configuration, "shortenClasspath", emptyMap())
+            () -> detachJdomElement(configuration, "shortenClasspath")
         );
 
         val jvmParameters = normalizeListOfStrings(
@@ -197,7 +195,7 @@ public class RunConfigurationsConfigure
 
 
     private static List<Element> getRunConfigurations(Document document, String type, @Nullable String factoryName) {
-        val runManager = ensureJdomElement(document.getRootElement(), "component", ImmutableMap.of(
+        val runManager = ensureJdomElement(document.getRootElement(), "component", singletonMap(
             "name", "RunManager"
         ));
 

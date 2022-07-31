@@ -37,6 +37,19 @@ ideaSettings {
 }
 ```
 
+## Configure default nullability annotation
+
+To configure default annotations [IDEA uses for nullity checks](https://www.jetbrains.com/help/idea/inferring-nullity.html), use this configuration:
+
+```groovy
+ideaSettings {
+  nullability {
+    defaultNotNullAnnotation = 'javax.annotation.Nonnull'
+    defaultNullableAnnotation = 'javax.annotation.Nullable'
+  }
+}
+```
+
 ## Configures Actions on Save
 
 Native IDEA [Actions on Save](https://www.jetbrains.com/help/idea/saving-and-reverting-changes.html#actions-on-save) functionality is used.

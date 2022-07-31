@@ -20,7 +20,7 @@
         <xsl:attribute name="index" select="count(preceding-sibling::item)"/>
       </xsl:if>
 
-      <xsl:apply-templates select="@*|node()"/>
+      <xsl:apply-templates select="node()"/>
 
     </xsl:copy>
   </xsl:template>

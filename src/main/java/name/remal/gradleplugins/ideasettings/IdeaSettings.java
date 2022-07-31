@@ -1,6 +1,7 @@
 package name.remal.gradleplugins.ideasettings;
 
 import static java.lang.Boolean.parseBoolean;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;
 import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
 import static name.remal.gradleplugins.toolkit.PathUtils.normalizePath;
@@ -54,6 +55,27 @@ public class IdeaSettings {
 
     public void setRequiredPlugins(Iterable<? extends CharSequence> requiredPlugins) {
         setStringsCollectionFromIterable(this.requiredPlugins, requiredPlugins);
+    }
+
+
+    private final Set<String> entryPoints = new TreeSet<>();
+
+    {
+        entryPoints.addAll(asList(
+            "com.google.auto.service.AutoService",
+            "name.remal.gradle_plugins.api.AutoService"
+        ));
+    }
+
+    public void setEntryPoints(Iterable<? extends CharSequence> entryPoints) {
+        setStringsCollectionFromIterable(this.entryPoints, entryPoints);
+    }
+
+
+    private final IdeaNullabilitySettingsSettings nullability;
+
+    public void nullability(Action<IdeaNullabilitySettingsSettings> action) {
+        action.execute(nullability);
     }
 
 
@@ -223,6 +245,7 @@ public class IdeaSettings {
         this.explicitlyEnabled = parseBoolean(String.valueOf(project.findProperty(
             IDEA_SETTINGS_EXTENSION_NAME + ".explicitlyEnabled"
         )));
+        this.nullability = project.getObjects().newInstance(IdeaNullabilitySettingsSettings.class);
         this.runOnSave = project.getObjects().newInstance(IdeaRunOnSaveSettings.class);
         this.checkstyle = project.getObjects().newInstance(IdeaCheckstyleSettings.class, project);
         this.runConfigurations = project.getObjects().newInstance(IdeaRunConfigurationsSettings.class, project);

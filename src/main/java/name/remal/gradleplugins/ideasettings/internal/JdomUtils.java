@@ -1,5 +1,6 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
+import static java.util.Collections.emptyMap;
 import static lombok.AccessLevel.PRIVATE;
 import static name.remal.gradleplugins.toolkit.xml.XmlProviderUtils.replaceXmlProviderContent;
 import static org.jdom2.output.Format.getCompactFormat;
@@ -59,6 +60,10 @@ abstract class JdomUtils {
     }
 
 
+    public static Element ensureJdomElement(Element parentNode, String elementName) {
+        return ensureJdomElement(parentNode, elementName, emptyMap());
+    }
+
     public static Element ensureJdomElement(Element parentNode, String elementName, Map<String, Object> attrs) {
         val element = findJdomElement(parentNode, elementName, attrs);
         if (element != null) {
@@ -75,9 +80,20 @@ abstract class JdomUtils {
         return newElement;
     }
 
+
+    public static void detachJdomElement(Element parentNode, String elementName) {
+        detachJdomElement(parentNode, elementName, emptyMap());
+    }
+
     public static void detachJdomElement(Element parentNode, String elementName, Map<String, Object> attrs) {
         Optional.ofNullable(findJdomElement(parentNode, elementName, attrs))
             .ifPresent(Element::detach);
+    }
+
+
+    @Nullable
+    public static Element findJdomElement(Element parentNode, String elementName) {
+        return findJdomElement(parentNode, elementName, emptyMap());
     }
 
     @Nullable

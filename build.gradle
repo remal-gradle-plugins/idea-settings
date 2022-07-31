@@ -68,16 +68,34 @@ apply plugin: 'java-gradle-plugin'
 dependencies {
     relocateClasses 'com.google.guava:guava'
     relocateClasses 'org.jdom:jdom'
-    relocateClasses('net.sf.saxon:Saxon-HE') {
-        exclude(group: 'xml-apis')
-        exclude(group: 'org.apache.httpcomponents')
-    }
     relocateClasses 'org.xmlunit:xmlunit-core'
 
     api 'gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext'
 
 
     testImplementation 'org.json:json'
+}
+
+Configuration saxonConf = configurations.create('saxon') {
+    configurations.relocateClasses.extendsFrom(it)
+
+    dependencies.add(project.dependencies.create('net.sf.saxon:Saxon-HE'))
+}
+
+configurations.create('saxonOptionalDependencies') {
+    configurations.excludeFromClassesRelocation.extendsFrom(it)
+    configurations.excludeFromForcedClassesRelocation.extendsFrom(it)
+
+    defaultDependencies { deps ->
+        saxonConf.resolvedConfiguration.lenientConfiguration.allModuleDependencies.forEach { dep ->
+            if (dep.moduleGroup == 'xml-apis'
+                || dep.moduleGroup == 'org.apache.httpcomponents'
+                || dep.moduleGroup.startsWith('org.apache.httpcomponents.')
+            ) {
+                deps.add(project.dependencies.create(group: dep.moduleGroup, name: dep.moduleName, version: dep.moduleVersion))
+            }
+        }
+    }
 }
 
 gradlePlugin {

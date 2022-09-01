@@ -1,5 +1,7 @@
 package name.remal.gradleplugins.ideasettings;
 
+import static java.lang.String.format;
+import static java.nio.file.Files.delete;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.newBufferedWriter;
 import static java.util.Arrays.stream;
@@ -9,6 +11,7 @@ import static java.util.stream.Collectors.toList;
 import static name.remal.gradleplugins.ideasettings.IdeaSettings.IDEA_SETTINGS_EXTENSION_NAME;
 import static name.remal.gradleplugins.ideasettings.IdeaSettings.canonizeIdeaSettingsRelativeFilePath;
 import static name.remal.gradleplugins.toolkit.ExtensionContainerUtils.getExtension;
+import static name.remal.gradleplugins.toolkit.GradleUtils.onGradleBuildFinished;
 import static name.remal.gradleplugins.toolkit.PathUtils.createParentDirectories;
 import static name.remal.gradleplugins.toolkit.PathUtils.normalizePath;
 import static name.remal.gradleplugins.toolkit.ProjectUtils.afterEvaluateOrNow;
@@ -23,6 +26,7 @@ import static name.remal.gradleplugins.toolkit.xml.XmlUtils.prettyXmlString;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
@@ -85,6 +89,17 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
 
         project.getPluginManager().apply("idea");
         project.getPluginManager().apply("org.jetbrains.gradle.plugin.idea-ext");
+        onGradleBuildFinished(project.getGradle(), __ -> {
+            val layoutFile = project.getRootProject().file("layout.json");
+            logger.debug("Deleting IDEA layout file: {}", layoutFile);
+            try {
+                delete(layoutFile.toPath());
+            } catch (NoSuchFileException ignore) {
+                // do nothing
+            } catch (Exception e) {
+                logger.warn(format("Failed to delete IDEA layout file: %s: %s", layoutFile, e), e);
+            }
+        });
 
         val editorConfig = new EditorConfig(project);
 

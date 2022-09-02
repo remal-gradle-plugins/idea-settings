@@ -71,6 +71,19 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
 
     private static void configure(Project project, IdeaSettings ideaSettings) {
         if (!ideaSettings.isExplicitlyEnabled()) {
+            val parentGradle = project.getGradle().getParent();
+            if (parentGradle != null) {
+                logger.warn(
+                    "Skipping logic of {}, as the current Gradle build is included into other build ({}). You can "
+                        + "explicitly enable the logic by adding `ideaSettings.explicitlyEnabled = true` "
+                        + "to the build script.",
+                    new PluginDescription(IdeaSettingsPlugin.class),
+                    parentGradle.getRootProject().getProjectDir()
+                );
+                ideaSettings.setEnabled(false);
+                return;
+            }
+
             val topLevelDirPath = getTopLevelDirOf(project);
             val repositoryRootPath = findGitRepositoryRootFor(topLevelDirPath);
             if (repositoryRootPath != null && !topLevelDirPath.equals(repositoryRootPath)) {

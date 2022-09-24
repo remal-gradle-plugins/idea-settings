@@ -57,7 +57,7 @@ dependencies {
     }
 
 
-    testImplementation 'org.json:json:20220320'
+    testImplementation 'org.json:json:20220924'
 }
 
 Configuration saxonConf = configurations.create('saxon') {

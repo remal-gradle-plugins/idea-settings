@@ -92,3 +92,10 @@ gradlePlugin {
         }
     }
 }
+
+configurations.gradlePluginApiDependencies {
+    exclude(group: 'com.google.code.findbugs')
+    exclude(group: 'com.google.errorprone')
+    exclude(group: 'com.google.guava')
+    exclude(group: 'com.google.code.gson')
+}

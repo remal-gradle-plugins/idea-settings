@@ -1,7 +1,5 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 import static java.util.Arrays.stream;
 import static java.util.Collections.singletonMap;
 import static java.util.stream.Collectors.joining;
@@ -121,9 +119,11 @@ public class RunConfigurationsConfigure
 
     private void processShortenCommandLine(Runnable onEnabled, Runnable onDisabled) {
         val shortenCommandLine = getIdeaSettings().getRunConfigurations().getJavaApplication().getShortenCommandLine();
-        if (TRUE.equals(shortenCommandLine)) {
+        if (shortenCommandLine == null) {
+            // do nothing
+        } else if (shortenCommandLine) {
             onEnabled.run();
-        } else if (FALSE.equals(shortenCommandLine)) {
+        } else {
             onDisabled.run();
         }
     }
@@ -167,6 +167,7 @@ public class RunConfigurationsConfigure
             .collect(joining(","));
     }
 
+    @SuppressWarnings("java:S3864")
     private static Collection<String> mergeJvmParameters(
         List<String> existingJvmParameters,
         List<String> jvmParameters,
@@ -195,7 +196,7 @@ public class RunConfigurationsConfigure
 
 
     private static List<Element> getRunConfigurations(Document document, String type, @Nullable String factoryName) {
-        val runManager = ensureJdomElement(document.getRootElement(), "component", singletonMap(
+        Element runManager = ensureJdomElement(document.getRootElement(), "component", singletonMap(
             "name", "RunManager"
         ));
 

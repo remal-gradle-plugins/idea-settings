@@ -184,6 +184,7 @@ abstract class XsltUtils {
     }
 
     @SneakyThrows
+    @SuppressWarnings("java:S3776")
     private static Source resolveUri(String href, @Nullable String base) throws TransformerException {
         try {
             val hrefUri = new URI(href);

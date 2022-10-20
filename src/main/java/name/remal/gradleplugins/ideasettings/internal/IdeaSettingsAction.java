@@ -1,6 +1,5 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
-import java.nio.file.Path;
 import name.remal.gradleplugins.ideasettings.IdeaSettings;
 import org.gradle.api.Project;
 import org.jetbrains.annotations.ApiStatus.Internal;

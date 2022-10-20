@@ -83,22 +83,8 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
                 ideaSettings.setEnabled(false);
                 return;
             }
-
-            val topLevelDirPath = getTopLevelDirOf(project);
-            val repositoryRootPath = findGitRepositoryRootFor(topLevelDirPath);
-            if (repositoryRootPath != null && !topLevelDirPath.equals(repositoryRootPath)) {
-                logger.warn(
-                    "Skipping logic of {}, as top level dir ({}) differs from Git repository root ({}). You can "
-                        + "explicitly enable the logic by adding `ideaSettings.explicitlyEnabled = true` "
-                        + "to the build script.",
-                    new PluginDescription(IdeaSettingsPlugin.class),
-                    topLevelDirPath,
-                    repositoryRootPath
-                );
-                ideaSettings.setEnabled(false);
-                return;
-            }
         }
+
 
         project.getPluginManager().apply("idea");
         project.getPluginManager().apply("org.jetbrains.gradle.plugin.idea-ext");
@@ -114,14 +100,33 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
             }
         });
 
-        val editorConfig = new EditorConfig(project);
-
         val ideaModel = project.getExtensions().getByType(IdeaModel.class);
         val ideaProject = requireNonNull(ideaModel.getProject(), "ideaModel.project");
         val ideaExt = getExtension(ideaProject, "settings");
 
-        configureEncodings(project, ideaExt, editorConfig);
         delegateBuildToGradle(ideaExt);
+
+
+        if (!ideaSettings.isExplicitlyEnabled()) {
+            val topLevelDirPath = getTopLevelDirOf(project);
+            val repositoryRootPath = findGitRepositoryRootFor(topLevelDirPath);
+            if (repositoryRootPath != null && !topLevelDirPath.equals(repositoryRootPath)) {
+                logger.warn(
+                    "Skipping configuring IDEA settings, as top level dir ({}) differs from Git repository root ({}). "
+                        + "You can explicitly enable the logic by adding `ideaSettings.explicitlyEnabled = true` "
+                        + "to the build script.",
+                    topLevelDirPath,
+                    repositoryRootPath
+                );
+                ideaSettings.setEnabled(false);
+                return;
+            }
+        }
+
+
+        val editorConfig = new EditorConfig(project);
+
+        configureEncodings(project, ideaExt, editorConfig);
         processIdeaDir(project, ideaExt, ideaSettings);
         initializeIdeaProjectFiles(project, ideaExt, ideaSettings);
         processIdeaProjectFiles(project, ideaExt, ideaSettings);

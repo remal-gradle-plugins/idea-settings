@@ -6,6 +6,10 @@ A Gradle plugin that allows to configure IntelliJ IDEA directly in build script.
 
 This plugin applies [`org.jetbrains.gradle.plugin.idea-ext`](https://github.com/JetBrains/gradle-idea-ext-plugin) plugin and configures its extensions
 
+## Enables delegating Run/Build and Test actions to Gradle
+
+This plugin [delegates Run/Build and Test actions](https://github.com/JetBrains/gradle-idea-ext-plugin/wiki#delegating-runbuild-and-test-actions) to Gradle.
+
 ## Configures encoding of `*.propertiers` files based on JVM version and content of `.editorconfig` file
 
 If the build doesn't use any of [`AbstractCompile`](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/compile/AbstractCompile.html) tasks, then encoding from `.editorconfig` file will be used for `*.properties` files. If the project doesn't have `.editorconfig` file, or encoding is not set there, `ISO-8859-1` encoding will be used by default.
@@ -15,10 +19,6 @@ For each of [`AbstractCompile`](https://docs.gradle.org/current/javadoc/org/grad
 If minimum `targetCompatibility` is equal or more than Java 9, encoding from `.editorconfig` file will be used for `*.properties` files. If the project doesn't have `.editorconfig` file, or encoding is not set there, `UTF-8` encoding will be used by default.
 
 Transparent native-to-ascii conversion will be enabled for all encodings except `UTF-8`.
-
-## Enables delegating Run/Build and Test actions to Gradle
-
-This plugin [delegates Run/Build and Test actions](https://github.com/JetBrains/gradle-idea-ext-plugin/wiki#delegating-runbuild-and-test-actions) to Gradle.
 
 ## Enables EditorConfig support
 

@@ -42,6 +42,9 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
     private String version;
 
     @Nullable
+    private Boolean treatErrorsAsWarnings;
+
+    @Nullable
     private String configFilePath;
 
     private boolean bundledSunChecksEnabled;
@@ -68,6 +71,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
 
         this.enabled = true;
         this.version = checkstyle.getToolVersion();
+
         if (this.configFilePath == null) {
             //noinspection ConstantConditions
             Optional.ofNullable(checkstyle.getConfig())
@@ -141,6 +145,8 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
     @MustBeInvokedByOverriders
     public void setIdeaSettings(IdeaSettings ideaSettings) {
         super.setIdeaSettings(ideaSettings);
+
+        this.treatErrorsAsWarnings = ideaSettings.getCheckstyle().getTreatErrorsAsWarnings();
 
         val checkstyleSettings = ideaSettings.getCheckstyle();
         if (checkstyleSettings.isBundledSunChecksEnabled()) {

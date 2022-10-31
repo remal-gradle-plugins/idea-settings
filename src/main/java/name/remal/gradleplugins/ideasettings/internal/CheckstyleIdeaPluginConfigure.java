@@ -36,6 +36,7 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
         super.configureTransformer(transformer);
 
         transformer.setParameter("checkstyle-version", getVersion());
+        transformer.setParameter("treat-errors-as-warnings", String.valueOf(getTreatErrorsAsWarnings()));
         transformer.setParameter("is-bundled-sun-checks", isBundledSunChecksEnabled());
         transformer.setParameter("is-bundled-google-checks", isBundledGoogleChecksEnabled());
 

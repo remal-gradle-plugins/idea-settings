@@ -97,6 +97,8 @@ ideaSettings {
     configFile = "path/to/xml/config/can/be/relative" // to use specific file with checks
     useBundledSunChecks() // to use bundled Sun checks
     useBundledGoogleChecks() // to use bundled Google checks
+
+    treatErrorsAsWarnings = true // Treat errors as warnings
   }
 }
 ```

@@ -46,6 +46,10 @@ public class IdeaCheckstyleSettings {
     }
 
 
+    @Nullable
+    private Boolean treatErrorsAsWarnings;
+
+
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private final Project project;

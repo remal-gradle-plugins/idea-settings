@@ -7,6 +7,7 @@
 
 
   <xsl:param name="checkstyle-version" required="yes"/>
+  <xsl:param name="treat-errors-as-warnings" required="yes"/>
   <xsl:param name="is-bundled-sun-checks" required="yes"/>
   <xsl:param name="is-bundled-google-checks" required="yes"/>
   <xsl:param name="config-new-id" required="no"/>
@@ -29,6 +30,12 @@
 
       <xsl:variable name="entry-nodes">
         <xsl:apply-templates select="entry" mode="#current"/>
+
+        <xsl:if test="$treat-errors-as-warnings != 'null'">
+          <xsl:if test="not(entry[@key = 'suppress-errors'])">
+            <entry key="suppress-errors" value="{$treat-errors-as-warnings}"/>
+          </xsl:if>
+        </xsl:if>
 
         <xsl:choose>
           <xsl:when test="$is-bundled-sun-checks">
@@ -60,6 +67,13 @@
     <xsl:copy>
       <xsl:apply-templates select="@*|node()" mode="#current"/>
       <xsl:attribute name="value" select="$checkstyle-version"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="entry[@key = 'suppress-errors' and $treat-errors-as-warnings != 'null']" mode="version-1">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()" mode="#current"/>
+      <xsl:attribute name="value" select="$treat-errors-as-warnings"/>
     </xsl:copy>
   </xsl:template>
 
@@ -110,6 +124,13 @@
     <xsl:copy>
       <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:value-of select="$checkstyle-version"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="suppressErrors[$treat-errors-as-warnings != 'null']" mode="version-2">
+    <xsl:copy>
+      <xsl:apply-templates select="@*" mode="#current"/>
+      <xsl:value-of select="$treat-errors-as-warnings"/>
     </xsl:copy>
   </xsl:template>
 
@@ -177,6 +198,14 @@
     <xsl:copy>
       <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:apply-templates select="*[name() != 'option']" mode="#current"/>
+
+      <xsl:if test="$treat-errors-as-warnings != 'null'">
+        <xsl:if test="not(suppressErrors)">
+          <suppressErrors>
+            <xsl:value-of select="$treat-errors-as-warnings"/>
+          </suppressErrors>
+        </xsl:if>
+      </xsl:if>
 
       <option name="thirdPartyClasspath">
         <xsl:if test="$thirdparty-classpath">

@@ -5,7 +5,7 @@ import groovy.json.JsonBuilder
 buildscript {
     dependencies {
         //classpath('name.remal.gradle-plugins.idea-settings:idea-settings') { version { strictly('2-SNAPSHOT') } }
-        classpath 'name.remal.gradle-plugins.toolkit:build-logic:0.35.0'
+        classpath 'name.remal.gradle-plugins.toolkit:build-logic:0.35.1'
     }
     repositories {
         gradlePluginPortal()

@@ -2,3 +2,4 @@
 # Do not modify it yourself unless you know what you are doing.
 
 gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.6
+org.ow2.asm:asm-bom:9.4:@pom

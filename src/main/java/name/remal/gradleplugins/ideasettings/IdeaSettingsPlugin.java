@@ -16,6 +16,7 @@ import static name.remal.gradleplugins.toolkit.PathUtils.createParentDirectories
 import static name.remal.gradleplugins.toolkit.PathUtils.normalizePath;
 import static name.remal.gradleplugins.toolkit.ProjectUtils.afterEvaluateOrNow;
 import static name.remal.gradleplugins.toolkit.ProjectUtils.getTopLevelDirOf;
+import static name.remal.gradleplugins.toolkit.ProjectUtils.isBuildSrcProject;
 import static name.remal.gradleplugins.toolkit.SneakyThrowUtils.sneakyThrows;
 import static name.remal.gradleplugins.toolkit.git.GitUtils.findGitRepositoryRootFor;
 import static name.remal.gradleplugins.toolkit.reflection.MethodsInvoker.invokeMethod;
@@ -73,13 +74,23 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
         if (!ideaSettings.isExplicitlyEnabled()) {
             val parentGradle = project.getGradle().getParent();
             if (parentGradle != null) {
-                logger.warn(
-                    "Skipping logic of {}, as the current Gradle build is included into other build ({}). You can "
-                        + "explicitly enable the logic by adding `ideaSettings.explicitlyEnabled = true` "
-                        + "to the build script.",
-                    new PluginDescription(IdeaSettingsPlugin.class),
-                    parentGradle.getRootProject().getProjectDir()
-                );
+                if (isBuildSrcProject(project)) {
+                    logger.debug(
+                        "Skipping logic of {}, as the current Gradle build is a `buildSrc` and included into "
+                            + "other build ({}). You can explicitly enable the logic by adding "
+                            + "`ideaSettings.explicitlyEnabled = true` to the build script.",
+                        new PluginDescription(IdeaSettingsPlugin.class),
+                        parentGradle.getRootProject().getProjectDir()
+                    );
+                } else {
+                    logger.warn(
+                        "Skipping logic of {}, as the current Gradle build is included into other build ({}). You can "
+                            + "explicitly enable the logic by adding `ideaSettings.explicitlyEnabled = true` "
+                            + "to the build script.",
+                        new PluginDescription(IdeaSettingsPlugin.class),
+                        parentGradle.getRootProject().getProjectDir()
+                    );
+                }
                 ideaSettings.setEnabled(false);
                 return;
             }

@@ -50,7 +50,7 @@ dependencies {
     relocateClasses 'org.jdom:jdom'
     relocateClasses 'org.xmlunit:xmlunit-core:2.9.0'
 
-    api('gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.6') {
+    api('gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.7') {
         exclude group: 'com.google.code.findbugs'
         exclude group: 'org.checkerframework'
         exclude group: 'com.google.errorprone'

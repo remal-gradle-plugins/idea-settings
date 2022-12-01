@@ -23,6 +23,7 @@ class IdeaSettingsPluginFunctionalTest {
             build.registerDefaultTask("processIdeaSettings");
         });
 
+        project.withoutConfigurationCache();
 
         val ideaDir = project.getProjectDir().toPath().resolve(".idea");
         createDirectories(ideaDir);

@@ -207,6 +207,10 @@
         </xsl:if>
       </xsl:if>
 
+      <xsl:if test="not(copyLibs)">
+        <copyLibs>true</copyLibs>
+      </xsl:if>
+
       <option name="thirdPartyClasspath">
         <xsl:if test="$thirdparty-classpath">
           <xsl:for-each select="$thirdparty-classpath">

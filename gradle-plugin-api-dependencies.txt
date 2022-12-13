@@ -1,6 +1,6 @@
 # This file is generated automatically by `collectAllGradlePluginApiDependencies` Gradle task.
 # Do not modify it yourself unless you know what you are doing.
 
-classes-that-rely-on-gradle-internal-api:e3328568e93040fee49198f4a68a3e1b53d6265237578d729000fd2ac7a766bc
+classes-that-rely-on-gradle-internal-api:208fea94168f071f2ba0204e0764b51e0a47b8bd0106a7e306d57417a3087825
 gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.7
 org.ow2.asm:asm-bom:9.4:@pom

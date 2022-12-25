@@ -87,7 +87,7 @@ gradlePlugin {
     plugins {
         'name.remal.idea-settings' {
             id = 'name.remal.idea-settings'
-            implementationClass = 'name.remal.gradle_plugins.ideasettings.IdeaSettingsPlugin'
+            implementationClass = 'name.remal.gradle_plugins.idea_settings.IdeaSettingsPlugin'
             displayName = 'Configure IntelliJ IDEA project'
             description = property('repository-description')
         }

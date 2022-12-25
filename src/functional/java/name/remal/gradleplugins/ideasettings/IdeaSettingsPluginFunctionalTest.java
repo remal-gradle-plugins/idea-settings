@@ -6,7 +6,7 @@ import static java.nio.file.Files.newBufferedWriter;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import name.remal.gradleplugins.toolkit.testkit.functional.GradleProject;
+import name.remal.gradle_plugins.toolkit.testkit.functional.GradleProject;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

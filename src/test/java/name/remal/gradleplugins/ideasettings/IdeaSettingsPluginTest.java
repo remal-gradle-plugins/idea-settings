@@ -3,9 +3,9 @@ package name.remal.gradleplugins.ideasettings;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Files.newBufferedWriter;
-import static name.remal.gradleplugins.toolkit.testkit.ProjectAfterEvaluateActionsExecutor.executeAfterEvaluateActions;
-import static name.remal.gradleplugins.toolkit.testkit.TaskActionsExecutor.executeActions;
-import static name.remal.gradleplugins.toolkit.testkit.TaskActionsExecutor.executeOnlyIfSpecs;
+import static name.remal.gradle_plugins.toolkit.testkit.ProjectAfterEvaluateActionsExecutor.executeAfterEvaluateActions;
+import static name.remal.gradle_plugins.toolkit.testkit.TaskActionsExecutor.executeActions;
+import static name.remal.gradle_plugins.toolkit.testkit.TaskActionsExecutor.executeOnlyIfSpecs;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

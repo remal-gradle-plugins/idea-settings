@@ -1,6 +1,6 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
-import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
+import static name.remal.gradle_plugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.net.URI;
 import javax.xml.transform.Transformer;

@@ -2,7 +2,7 @@ package name.remal.gradleplugins.ideasettings.internal;
 
 import static java.util.Collections.emptyMap;
 import static lombok.AccessLevel.PRIVATE;
-import static name.remal.gradleplugins.toolkit.xml.XmlProviderUtils.replaceXmlProviderContent;
+import static name.remal.gradle_plugins.toolkit.xml.XmlProviderUtils.replaceXmlProviderContent;
 import static org.jdom2.output.Format.getCompactFormat;
 
 import java.io.StringReader;

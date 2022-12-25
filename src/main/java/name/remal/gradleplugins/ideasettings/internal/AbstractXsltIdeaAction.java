@@ -3,7 +3,7 @@ package name.remal.gradleplugins.ideasettings.internal;
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.util.Optional;
 import javax.xml.transform.Transformer;
-import name.remal.gradleplugins.toolkit.PathUtils;
+import name.remal.gradle_plugins.toolkit.PathUtils;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal

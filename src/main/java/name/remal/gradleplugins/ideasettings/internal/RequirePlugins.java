@@ -1,8 +1,8 @@
 package name.remal.gradleplugins.ideasettings.internal;
 
 import static java.util.stream.Collectors.toList;
-import static name.remal.gradleplugins.toolkit.PredicateUtils.not;
-import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
+import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
+import static name.remal.gradle_plugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.net.URI;
 import java.util.Objects;

@@ -5,7 +5,7 @@ import static java.lang.Character.isWhitespace;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static lombok.AccessLevel.PRIVATE;
-import static name.remal.gradleplugins.toolkit.ObjectUtils.isEmpty;
+import static name.remal.gradle_plugins.toolkit.ObjectUtils.isEmpty;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.util.ArrayList;

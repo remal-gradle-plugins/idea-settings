@@ -2,8 +2,8 @@ package name.remal.gradleplugins.ideasettings.internal;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
-import static name.remal.gradleplugins.toolkit.PathUtils.normalizePath;
-import static name.remal.gradleplugins.toolkit.ResourceUtils.getResourceUrl;
+import static name.remal.gradle_plugins.toolkit.PathUtils.normalizePath;
+import static name.remal.gradle_plugins.toolkit.ResourceUtils.getResourceUrl;
 
 import java.io.File;
 import java.net.URI;

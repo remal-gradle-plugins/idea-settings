@@ -2,8 +2,8 @@ package name.remal.gradleplugins.ideasettings.internal;
 
 import static java.beans.Introspector.getBeanInfo;
 import static java.util.Objects.requireNonNull;
-import static name.remal.gradleplugins.toolkit.reflection.ReflectionUtils.isNotPublic;
-import static name.remal.gradleplugins.toolkit.reflection.ReflectionUtils.unwrapGeneratedSubclass;
+import static name.remal.gradle_plugins.toolkit.reflection.ReflectionUtils.isNotPublic;
+import static name.remal.gradle_plugins.toolkit.reflection.ReflectionUtils.unwrapGeneratedSubclass;
 
 import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 import java.nio.file.Path;

@@ -3,8 +3,8 @@ package name.remal.gradleplugins.ideasettings;
 import static java.lang.Boolean.parseBoolean;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyMap;
-import static name.remal.gradleplugins.toolkit.ObjectUtils.doNotInline;
-import static name.remal.gradleplugins.toolkit.PathUtils.normalizePath;
+import static name.remal.gradle_plugins.toolkit.ObjectUtils.doNotInline;
+import static name.remal.gradle_plugins.toolkit.PathUtils.normalizePath;
 
 import java.io.File;
 import java.nio.file.Path;

@@ -6,9 +6,9 @@ import static java.lang.System.lineSeparator;
 import static javax.xml.transform.OutputKeys.INDENT;
 import static javax.xml.transform.OutputKeys.METHOD;
 import static lombok.AccessLevel.PRIVATE;
-import static name.remal.gradleplugins.toolkit.ResourceUtils.readResource;
-import static name.remal.gradleplugins.toolkit.xml.DomUtils.getNodeOwnerDocument;
-import static name.remal.gradleplugins.toolkit.xml.XmlProviderUtils.replaceXmlProviderContent;
+import static name.remal.gradle_plugins.toolkit.ResourceUtils.readResource;
+import static name.remal.gradle_plugins.toolkit.xml.DomUtils.getNodeOwnerDocument;
+import static name.remal.gradle_plugins.toolkit.xml.XmlProviderUtils.replaceXmlProviderContent;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;

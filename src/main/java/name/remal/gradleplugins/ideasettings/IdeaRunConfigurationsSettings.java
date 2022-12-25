@@ -1,6 +1,6 @@
 package name.remal.gradleplugins.ideasettings;
 
-import static name.remal.gradleplugins.toolkit.PropertiesConventionUtils.setPropertyConvention;
+import static name.remal.gradle_plugins.toolkit.PropertiesConventionUtils.setPropertyConvention;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,8 +11,8 @@ import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.detachJdo
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.ensureJdomElement;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.parseJdomDocument;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.replaceXmlProviderContentWithJdom;
-import static name.remal.gradleplugins.toolkit.PredicateUtils.not;
-import static name.remal.gradleplugins.toolkit.PredicateUtils.startsWithString;
+import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
+import static name.remal.gradle_plugins.toolkit.PredicateUtils.startsWithString;
 
 import com.google.common.base.Splitter;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import lombok.val;
 import name.remal.gradle_plugins.api.AutoService;
-import name.remal.gradleplugins.toolkit.ObjectUtils;
+import name.remal.gradle_plugins.toolkit.ObjectUtils;
 import org.gradle.api.XmlProvider;
 import org.jdom2.Document;
 import org.jdom2.Element;

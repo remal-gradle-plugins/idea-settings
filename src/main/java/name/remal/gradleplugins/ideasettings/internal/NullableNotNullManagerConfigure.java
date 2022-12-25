@@ -4,7 +4,7 @@ import static java.util.Collections.singletonMap;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.ensureJdomElement;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.parseJdomDocument;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.replaceXmlProviderContentWithJdom;
-import static name.remal.gradleplugins.toolkit.ObjectUtils.isNotEmpty;
+import static name.remal.gradle_plugins.toolkit.ObjectUtils.isNotEmpty;
 
 import lombok.val;
 import name.remal.gradle_plugins.api.AutoService;

@@ -5,12 +5,12 @@ import static java.util.stream.Collectors.toSet;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.ensureJdomElement;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.parseJdomDocument;
 import static name.remal.gradleplugins.ideasettings.internal.JdomUtils.replaceXmlProviderContentWithJdom;
-import static name.remal.gradleplugins.toolkit.PredicateUtils.not;
+import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
 
 import java.util.Objects;
 import lombok.val;
 import name.remal.gradle_plugins.api.AutoService;
-import name.remal.gradleplugins.toolkit.ObjectUtils;
+import name.remal.gradle_plugins.toolkit.ObjectUtils;
 import org.gradle.api.XmlProvider;
 import org.jdom2.Element;
 import org.jetbrains.annotations.ApiStatus.Internal;

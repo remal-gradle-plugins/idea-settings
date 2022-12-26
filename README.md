@@ -133,3 +133,9 @@ ideaSettings {
   }
 }
 ```
+
+## Migration guide
+
+### Version 2.* to 3.*
+
+Package name was changed from `name.remal.gradleplugins.ideasettings` to `name.remal.gradle_plugins.idea_settings`.

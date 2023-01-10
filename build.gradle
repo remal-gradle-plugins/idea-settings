@@ -48,7 +48,7 @@ apply plugin: 'java-gradle-plugin'
 dependencies {
     relocateClasses 'com.google.guava:guava'
     relocateClasses 'org.jdom:jdom2'
-    relocateClasses 'org.xmlunit:xmlunit-core:2.9.0'
+    relocateClasses 'org.xmlunit:xmlunit-core:2.9.1'
 
     api('gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.7') {
         exclude group: 'com.google.code.findbugs'

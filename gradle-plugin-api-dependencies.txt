@@ -3,4 +3,4 @@
 
 classes-that-rely-on-gradle-internal-api:37a54cf8bb5764f5bc5679a068552ed0eb9d553c5148e07124399262fd6046c6
 gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.7
-org.ow2.asm:asm-bom:9.4:@pom
+org.ow2.asm:asm-bom:9.5:@pom

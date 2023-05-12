@@ -1,6 +1,11 @@
 # This file is generated automatically by `collectAllGradlePluginApiDependencies` Gradle task.
 # Do not modify it yourself unless you know what you are doing.
 
-classes-that-rely-on-gradle-internal-api:37a54cf8bb5764f5bc5679a068552ed0eb9d553c5148e07124399262fd6046c6
 gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.7
 org.ow2.asm:asm-bom:9.5:@pom
+zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils$1:28dc91ab6296c5713a580d6016bd84ab839bdda697bffd4e9da3e9060b5ad60b
+zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils$IfDebugEnabled:d55ccdc2da79008698e3187a985a97f3b3e4011fb1bab5b3a8d4ad0c9f41b10e
+zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils:b9714531ebf3ecb262194a08809b2d6d73030ae05fc041f8eb36513940e1d342
+zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.PropertiesConventionUtils:cd49764ba28b84413801219b505295c8ddd9d02dd718400ec8e820bd68205369
+zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.Version:c05c42c0ac3e2dad8e94638c97b1f794f5349958c953d94d2348b94aee48ed68
+zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.reflection.ReflectionUtils:498f1ae71dfd5d81750771ba65f9474d02109d1e41f4e702eebb9cc7a9a0b0df

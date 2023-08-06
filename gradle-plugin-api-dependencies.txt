@@ -5,7 +5,7 @@ gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.7
 org.ow2.asm:asm-bom:9.5:@pom
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils$1:2ad0cd52fa624733b180f9718702382387823bc5bc7700e4c8a4bde381155bbe
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils$IfDebugEnabled:8cab6039bcd052327fe77b9805ba122b2a14d01725d6da7628f7c30b1a91edb0
-zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils:b03eebffb4148e80eaa09c41af7ea1a8ee7e6ac88bdf6b6ec8065b306af3a2f9
+zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils:4defe9f78d3e799d1d3d2e54eaabd580d7e40651b07f1dd12c14f4504410562c
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.PropertiesConventionUtils:852bee154e9072b00139d17f9cc1316c94d0f94019b24da90166c78bf58805c1
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.Version:38aeaeadf927b3cd46126e96755fb3fd2798e276f8c33749d79957f53a3347c0
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.reflection.ReflectionUtils:5ec61ffb5465550a5e2f8272d4d8c532868cc556d962a991195eaa5e534c7efd

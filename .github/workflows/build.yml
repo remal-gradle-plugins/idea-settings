@@ -90,17 +90,10 @@ jobs:
       uses: remal-github-actions/cache-gradle@main
       with:
         build-cache-for-branches-only: 'true'
-    - name: Read min supported Java version
-      id: min-java-version
-      uses: remal-github-actions/read-property@v1
-      with:
-        file: gradle.properties
-        property: 'java-runtime.min-version'
-    - name: Setup Java ${{steps.min-java-version.outputs.value != env.DEFAULT_JAVA_VERSION && format('{0} and {1}', steps.min-java-version.outputs.value, env.DEFAULT_JAVA_VERSION) || env.DEFAULT_JAVA_VERSION}}
+    - name: Setup Java ${{env.DEFAULT_JAVA_VERSION}}
       uses: actions/setup-java@v3
       with:
         java-version: |
-          ${{steps.min-java-version.outputs.value != env.DEFAULT_JAVA_VERSION && steps.min-java-version.outputs.value || ''}}
           ${{env.DEFAULT_JAVA_VERSION}}
         distribution: temurin
     - name: Retrieve repository info
@@ -177,6 +170,12 @@ jobs:
         path: '/tmp/workspace-${{github.run_id}}.tar.gz'
         if-no-files-found: error
         retention-days: 90
+    - name: Read min supported Java version
+      id: min-java-version
+      uses: remal-github-actions/read-property@v1
+      with:
+        file: gradle.properties
+        property: 'java-runtime.min-version'
     - name: Read min supported Gradle version
       id: min-gradle-version
       uses: remal-github-actions/read-property@v1

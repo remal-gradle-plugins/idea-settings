@@ -64,7 +64,7 @@ dependencies {
 Configuration saxonConf = configurations.create('saxon') {
     configurations.relocateClasses.extendsFrom(it)
 
-    dependencies.add(project.dependencies.create('net.sf.saxon:Saxon-HE:12.3'))
+    dependencies.add(project.dependencies.create('net.sf.saxon:Saxon-HE:12.4'))
 }
 
 configurations.create('saxonOptionalDependencies') {

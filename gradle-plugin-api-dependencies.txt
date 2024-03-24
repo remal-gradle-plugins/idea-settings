@@ -2,7 +2,7 @@
 # Do not modify it yourself unless you know what you are doing.
 
 gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.8
-org.ow2.asm:asm-bom:9.6:@pom
+org.ow2.asm:asm-bom:9.7:@pom
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils$1:2ad0cd52fa624733b180f9718702382387823bc5bc7700e4c8a4bde381155bbe
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils$IfDebugEnabled:8cab6039bcd052327fe77b9805ba122b2a14d01725d6da7628f7c30b1a91edb0
 zzzz-classes-that-rely-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal._relocated.name.remal.gradle_plugins.toolkit.DebugUtils:4defe9f78d3e799d1d3d2e54eaabd580d7e40651b07f1dd12c14f4504410562c

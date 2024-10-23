@@ -3,14 +3,17 @@ package name.remal.gradle_plugins.idea_settings;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Files.newBufferedWriter;
-import static name.remal.gradle_plugins.toolkit.testkit.ProjectAfterEvaluateActionsExecutor.executeAfterEvaluateActions;
-import static name.remal.gradle_plugins.toolkit.testkit.TaskActionsExecutor.executeActions;
-import static name.remal.gradle_plugins.toolkit.testkit.TaskActionsExecutor.executeOnlyIfSpecs;
+import static name.remal.gradle_plugins.toolkit.reflection.ReflectionUtils.packageNameOf;
+import static name.remal.gradle_plugins.toolkit.reflection.ReflectionUtils.unwrapGeneratedSubclass;
+import static name.remal.gradle_plugins.toolkit.testkit.ProjectValidations.executeAfterEvaluateActions;
+import static name.remal.gradle_plugins.toolkit.testkit.TaskValidations.executeActions;
+import static name.remal.gradle_plugins.toolkit.testkit.TaskValidations.executeOnlyIfSpecs;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import name.remal.gradle_plugins.toolkit.testkit.TaskValidations;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.quality.CheckstylePlugin;
 import org.json.JSONObject;
@@ -36,6 +39,19 @@ class IdeaSettingsPluginTest {
 
 
         project.getPluginManager().apply(IdeaSettingsPlugin.class);
+    }
+
+    @Test
+    void pluginTasksDoNotHavePropertyProblems() {
+        executeAfterEvaluateActions(project);
+
+        val taskClassNamePrefix = packageNameOf(IdeaSettingsPluginTest.class) + '.';
+        project.getTasks().stream()
+            .filter(task -> {
+                val taskClass = unwrapGeneratedSubclass(task.getClass());
+                return taskClass.getName().startsWith(taskClassNamePrefix);
+            })
+            .forEach(TaskValidations::assertNoTaskPropertiesProblems);
     }
 
     @Test

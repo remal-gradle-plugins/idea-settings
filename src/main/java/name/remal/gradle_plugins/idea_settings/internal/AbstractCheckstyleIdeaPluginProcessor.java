@@ -18,6 +18,7 @@ import name.remal.gradle_plugins.toolkit.LazyInitializer;
 import name.remal.gradle_plugins.toolkit.PathUtils;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.api.plugins.quality.CheckstyleExtension;
 import org.gradle.api.resources.TextResource;
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -125,8 +126,8 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
         return configuration
             .getResolvedConfiguration()
             .getLenientConfiguration()
-            .getFiles()
-            .stream()
+            .getArtifacts().stream()
+            .map(ResolvedArtifact::getFile)
             .filter(File::exists)
             .map(File::toPath)
             .map(PathUtils::normalizePath)

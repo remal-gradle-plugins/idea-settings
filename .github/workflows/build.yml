@@ -8,7 +8,7 @@ on:
     - 'v*'
   pull_request: { }
   schedule:
-  - cron: '23 11 * * *' # sync-with-template: adjust
+  - cron: '18 11 * * *' # sync-with-template: adjust
   workflow_dispatch: { }
 
 defaults:

@@ -46,8 +46,7 @@ tasks.create('processIdeaSettingsDebug') {
 apply plugin: 'java-gradle-plugin'
 
 dependencies {
-    relocateClasses 'com.google.guava:guava'
-    relocateClasses 'org.jdom:jdom2'
+    relocateClasses 'org.jdom:jdom2:2.0.6.1'
     relocateClasses 'org.xmlunit:xmlunit-core:2.10.0'
 
     api('gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.9') {

@@ -1,6 +1,6 @@
 package name.remal.gradle_plugins.idea_settings.internal;
 
-import name.remal.gradle_plugins.api.AutoService;
+import com.google.auto.service.AutoService;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal

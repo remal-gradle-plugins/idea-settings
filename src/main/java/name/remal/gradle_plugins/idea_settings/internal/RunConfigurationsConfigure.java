@@ -14,6 +14,7 @@ import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.replace
 import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
 import static name.remal.gradle_plugins.toolkit.PredicateUtils.startsWithString;
 
+import com.google.auto.service.AutoService;
 import com.google.common.base.Splitter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +28,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 import lombok.val;
-import name.remal.gradle_plugins.api.AutoService;
 import name.remal.gradle_plugins.toolkit.ObjectUtils;
 import org.gradle.api.XmlProvider;
 import org.jdom2.Document;

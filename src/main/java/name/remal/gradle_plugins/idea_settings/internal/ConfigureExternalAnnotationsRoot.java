@@ -5,13 +5,13 @@ import static name.remal.gradle_plugins.toolkit.ObjectUtils.isNotEmpty;
 import static name.remal.gradle_plugins.toolkit.PathUtils.normalizePath;
 import static name.remal.gradle_plugins.toolkit.ResourceUtils.getResourceUrl;
 
+import com.google.auto.service.AutoService;
 import com.google.common.annotations.VisibleForTesting;
 import java.io.File;
 import java.net.URI;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
 import lombok.val;
-import name.remal.gradle_plugins.api.AutoService;
 import org.gradle.internal.os.OperatingSystem;
 import org.jetbrains.annotations.ApiStatus.Internal;
 

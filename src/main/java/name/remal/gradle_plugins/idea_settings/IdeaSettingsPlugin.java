@@ -70,6 +70,7 @@ public class IdeaSettingsPlugin implements Plugin<Project> {
         afterEvaluateOrNow(project, __ -> configure(project, ideaSettings));
     }
 
+    @SuppressWarnings("Slf4jFormatShouldBeConst")
     private static void configure(Project project, IdeaSettings ideaSettings) {
         if (!ideaSettings.isExplicitlyEnabled()) {
             val parentGradle = project.getGradle().getParent();

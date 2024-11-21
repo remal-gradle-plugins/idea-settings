@@ -6,8 +6,8 @@ import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.parseJd
 import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.replaceXmlProviderContentWithJdom;
 import static name.remal.gradle_plugins.toolkit.ObjectUtils.isNotEmpty;
 
+import com.google.auto.service.AutoService;
 import lombok.val;
-import name.remal.gradle_plugins.api.AutoService;
 import org.gradle.api.XmlProvider;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;

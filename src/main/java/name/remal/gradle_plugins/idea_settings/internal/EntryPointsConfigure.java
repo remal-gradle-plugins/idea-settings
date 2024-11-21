@@ -7,9 +7,9 @@ import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.parseJd
 import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.replaceXmlProviderContentWithJdom;
 import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
 
+import com.google.auto.service.AutoService;
 import java.util.Objects;
 import lombok.val;
-import name.remal.gradle_plugins.api.AutoService;
 import name.remal.gradle_plugins.toolkit.ObjectUtils;
 import org.gradle.api.XmlProvider;
 import org.jdom2.Element;

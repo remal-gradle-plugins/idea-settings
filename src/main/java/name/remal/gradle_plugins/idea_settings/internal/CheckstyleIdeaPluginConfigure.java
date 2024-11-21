@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import static name.remal.gradle_plugins.toolkit.PathUtils.normalizePath;
 import static name.remal.gradle_plugins.toolkit.ResourceUtils.getResourceUrl;
 
+import com.google.auto.service.AutoService;
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
@@ -13,7 +14,6 @@ import java.util.UUID;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
 import lombok.val;
-import name.remal.gradle_plugins.api.AutoService;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal

@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.val;
 import name.remal.gradle_plugins.idea_settings.IdeaSettings;
-import name.remal.gradle_plugins.toolkit.LazyInitializer;
+import name.remal.gradle_plugins.toolkit.LazyValue;
 import name.remal.gradle_plugins.toolkit.PathUtils;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -53,7 +53,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
     private boolean bundledGoogleChecksEnabled;
 
     @Nullable
-    private LazyInitializer<Set<Path>> thirdPartyClasspathFilePaths;
+    private LazyValue<Set<Path>> thirdPartyClasspathFilePaths;
 
     @Override
     @MustBeInvokedByOverriders
@@ -83,7 +83,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
                 );
         }
 
-        this.thirdPartyClasspathFilePaths = LazyInitializer.of(() -> {
+        this.thirdPartyClasspathFilePaths = LazyValue.of(() -> {
             val originalCheckstyleConfiguration = checkstyleProject.getConfigurations().getByName("checkstyle");
 
             val consumableConfigurationName = join(

@@ -3,6 +3,7 @@ package name.remal.gradle_plugins.idea_settings.internal;
 import static java.lang.String.join;
 import static java.util.stream.Collectors.toCollection;
 import static lombok.AccessLevel.PROTECTED;
+import static name.remal.gradle_plugins.toolkit.LazyProxy.asLazySetProxy;
 
 import com.google.common.collect.ImmutableMap;
 import java.io.File;
@@ -14,7 +15,6 @@ import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.val;
 import name.remal.gradle_plugins.idea_settings.IdeaSettings;
-import name.remal.gradle_plugins.toolkit.LazyValue;
 import name.remal.gradle_plugins.toolkit.PathUtils;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -53,7 +53,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
     private boolean bundledGoogleChecksEnabled;
 
     @Nullable
-    private LazyValue<Set<Path>> thirdPartyClasspathFilePaths;
+    private Set<Path> thirdPartyClasspathFilePaths;
 
     @Override
     @MustBeInvokedByOverriders
@@ -83,7 +83,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
                 );
         }
 
-        this.thirdPartyClasspathFilePaths = LazyValue.of(() -> {
+        this.thirdPartyClasspathFilePaths = asLazySetProxy(() -> {
             val originalCheckstyleConfiguration = checkstyleProject.getConfigurations().getByName("checkstyle");
 
             val consumableConfigurationName = join(
@@ -126,7 +126,8 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
         return configuration
             .getResolvedConfiguration()
             .getLenientConfiguration()
-            .getArtifacts().stream()
+            .getArtifacts()
+            .stream()
             .map(ResolvedArtifact::getFile)
             .filter(File::exists)
             .map(File::toPath)

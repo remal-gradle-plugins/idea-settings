@@ -68,7 +68,7 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
         transformer.setParameter("thirdparty-classpath", emptyList());
         val thirdPartyClasspathFilePaths = getThirdPartyClasspathFilePaths();
         if (thirdPartyClasspathFilePaths != null) {
-            transformer.setParameter("thirdparty-classpath", thirdPartyClasspathFilePaths.get().stream()
+            transformer.setParameter("thirdparty-classpath", thirdPartyClasspathFilePaths.stream()
                 .map(this::relativizeThirdPartyClasspathPath)
                 .collect(toList())
             );

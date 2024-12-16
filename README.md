@@ -6,6 +6,12 @@
 
 [![configuration cache: not supported](https://img.shields.io/static/v1?label=configuration%20cache&message=not%20supported&color=inactive)](https://docs.gradle.org/current/userguide/configuration_cache.html)
 
+Usage:
+
+<!--plugin-usage:name.remal.idea-settings--><!--/plugin-usage-->
+
+&nbsp;
+
 A Gradle plugin that allows to configure IntelliJ IDEA directly in build script.
 
 This plugin applies [`org.jetbrains.gradle.plugin.idea-ext`](https://github.com/JetBrains/gradle-idea-ext-plugin) plugin and configures its extensions

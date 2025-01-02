@@ -30,7 +30,6 @@ import lombok.CustomLog;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.val;
-import name.remal.gradle_plugins.api.RelocatePackages;
 import net.sf.saxon.jaxp.SaxonTransformerFactory;
 import net.sf.saxon.lib.Logger;
 import org.gradle.api.XmlProvider;
@@ -39,7 +38,6 @@ import org.w3c.dom.Document;
 
 @Internal
 @NoArgsConstructor(access = PRIVATE)
-@RelocatePackages("net.sf.saxon")
 @CustomLog
 abstract class XsltUtils {
 

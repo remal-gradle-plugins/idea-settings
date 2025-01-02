@@ -27,16 +27,20 @@ apply plugin: 'name.remal.toolkit.build-logic'
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-tasks.named('processIdeaSettings') {
-    if (project.isNotRunningOnCi && gradle.startParameter.taskNames.contains('processIdeaSettingsDebug')) {
+if (project.isNotRunningOnCi && gradle.startParameter.taskNames.contains('processIdeaSettingsDebug')) {
+    tasks.named('processIdeaSettings') {
+        File layoutJsonFile = rootProject.file('layout.json')
         doFirst {
             String jsonString = new JsonBuilder([ideaDirPath: rootProject.file('.idea').absolutePath]).toPrettyString()
-            rootProject.file('layout.json').setText(jsonString, 'UTF-8')
+            layoutJsonFile.setText(jsonString, 'UTF-8')
+        }
+        doLast {
+            layoutJsonFile.delete()
         }
     }
 }
 
-tasks.create('processIdeaSettingsDebug') {
+tasks.register('processIdeaSettingsDebug') {
     group = 'debug'
     dependsOn('processIdeaSettings')
 }
@@ -46,8 +50,12 @@ tasks.create('processIdeaSettingsDebug') {
 apply plugin: 'java-gradle-plugin'
 
 dependencies {
-    relocateClasses 'org.jdom:jdom2:2.0.6.1'
-    relocateClasses 'org.xmlunit:xmlunit-core:2.10.0'
+    classesRelocation('net.sf.saxon:Saxon-HE:12.5') {
+        exclude group: 'xml-apis'
+        exclude group: 'org.apache.httpcomponents'
+    }
+    classesRelocation 'org.jdom:jdom2:2.0.6.1'
+    classesRelocation 'org.xmlunit:xmlunit-core:2.10.0'
 
     compileOnlyAll 'name.remal:gradle-plugins-api:1.9.2'
 
@@ -60,28 +68,6 @@ dependencies {
 
 
     testImplementation 'org.json:json:20240303'
-}
-
-Configuration saxonConf = configurations.create('saxon') {
-    configurations.relocateClasses.extendsFrom(it)
-
-    dependencies.add(project.dependencies.create('net.sf.saxon:Saxon-HE:12.5'))
-}
-
-configurations.create('saxonOptionalDependencies') {
-    configurations.excludeFromClassesRelocation.extendsFrom(it)
-    configurations.excludeFromForcedClassesRelocation.extendsFrom(it)
-
-    defaultDependencies { deps ->
-        saxonConf.resolvedConfiguration.lenientConfiguration.allModuleDependencies.forEach { dep ->
-            if (dep.moduleGroup == 'xml-apis'
-                || dep.moduleGroup == 'org.apache.httpcomponents'
-                || dep.moduleGroup.startsWith('org.apache.httpcomponents.')
-            ) {
-                deps.add(project.dependencies.create(group: dep.moduleGroup, name: dep.moduleName, version: dep.moduleVersion))
-            }
-        }
-    }
 }
 
 gradlePlugin {

@@ -13,13 +13,12 @@ import org.junit.jupiter.api.Test;
 @RequiredArgsConstructor
 class IdeaSettingsPluginFunctionalTest {
 
-    private final GradleProject project;
+    final GradleProject project;
 
     @BeforeEach
     void beforeEach() throws Throwable {
         project.forBuildFile(build -> {
             build.applyPlugin("name.remal.idea-settings");
-            build.registerDefaultTask("processIdeaSettings");
         });
 
         project.withoutConfigurationCache();
@@ -37,7 +36,7 @@ class IdeaSettingsPluginFunctionalTest {
 
     @Test
     void emptyBuildPerformsSuccessfully() {
-        project.assertBuildSuccessfully();
+        project.assertBuildSuccessfully("processIdeaSettings");
     }
 
     @Test
@@ -45,7 +44,7 @@ class IdeaSettingsPluginFunctionalTest {
         project.forBuildFile(build -> {
             build.applyPlugin("checkstyle");
         });
-        project.assertBuildSuccessfully();
+        project.assertBuildSuccessfully("processIdeaSettings");
     }
 
 }

@@ -3,5 +3,5 @@
 
 gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.1.9
 org.ow2.asm:asm-bom:9.7.1:@pom
-zzzz-classes-relying-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal.CommandLineUtils:ead465dea89481211a9fa6c218c59c2f48a18a033d77cf0746639d708d11dcb9
-zzzz-classes-relying-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal.ConfigureExternalAnnotationsRoot:34bd52fd6ecdd844f9f7f08ebc6f93cc25d8ca13ab5277cdc754c9eb0736f26b
+zzzz-classes-relying-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal.CommandLineUtils:d3d94c3435fc4f989cab9f912bcd13bae3aaea5623ceea7adb2f4f2ca7807fbd
+zzzz-classes-relying-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal.ConfigureExternalAnnotationsRoot:c25d4ed16113de540c58224bfc0cef2f806b5849fef05e0ef1f035e807a65a5e

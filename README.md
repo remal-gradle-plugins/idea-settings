@@ -150,7 +150,7 @@ ideaSettings {
 
 # Migration guide
 
-## Version 2.* to 3.*
+## Version 3.* to 4.*
 
 Minimum Java version is 11.
 

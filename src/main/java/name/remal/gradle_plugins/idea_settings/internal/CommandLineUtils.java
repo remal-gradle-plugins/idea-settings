@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 import javax.annotation.Nullable;
 import lombok.NoArgsConstructor;
-import lombok.val;
 import org.gradle.internal.os.OperatingSystem;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Unmodifiable;
@@ -78,11 +77,11 @@ abstract class CommandLineUtils {
 
         List<String> result = new ArrayList<>();
 
-        val token = new StringBuilder();
+        var token = new StringBuilder();
         char quote = 0;
 
         for (int index = 0; index < string.length(); ++index) {
-            val ch = string.charAt(index);
+            var ch = string.charAt(index);
 
             if (quote == 0 && isWhitespace(ch)) {
                 if (token.length() > 0) {
@@ -98,7 +97,7 @@ abstract class CommandLineUtils {
                     break;
                 }
 
-                val nextCh = string.charAt(index + 1);
+                var nextCh = string.charAt(index + 1);
                 if (nextCh == ch
                     || contains(charsToEscape, nextCh)
                     || (nextCh == quote)
@@ -112,7 +111,7 @@ abstract class CommandLineUtils {
             }
 
             if (supportTwoDoubleQuotes && quote == '"' && ch == '"' && index < string.length() - 1) {
-                val nextCh = string.charAt(index + 1);
+                var nextCh = string.charAt(index + 1);
                 if (nextCh == ch) {
                     token.append(nextCh);
                     ++index;
@@ -172,9 +171,9 @@ abstract class CommandLineUtils {
         boolean supportSingleQuotes,
         char[] charsToEscape
     ) {
-        val result = new StringBuilder();
+        var result = new StringBuilder();
 
-        for (val parameter : parameters) {
+        for (var parameter : parameters) {
             if (result.length() > 0) {
                 result.append(' ');
             }
@@ -185,8 +184,8 @@ abstract class CommandLineUtils {
             }
 
             boolean shouldBeQuoted = false;
-            val chars = parameter.toCharArray();
-            for (val ch : chars) {
+            var chars = parameter.toCharArray();
+            for (var ch : chars) {
                 if (isWhitespace(ch)
                     || ch == '"'
                     || (supportSingleQuotes && ch == '\'')
@@ -203,7 +202,7 @@ abstract class CommandLineUtils {
             }
 
             result.append('"');
-            for (val ch : chars) {
+            for (var ch : chars) {
                 if (ch == '"'
                     || ch == '\\'
                     || contains(charsToEscape, ch)

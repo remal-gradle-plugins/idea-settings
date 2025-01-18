@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import name.remal.gradle_plugins.toolkit.testkit.TaskValidations;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.quality.CheckstylePlugin;
@@ -27,12 +26,12 @@ class IdeaSettingsPluginTest {
 
     @BeforeEach
     void beforeEach() throws Throwable {
-        val ideaDir = project.getProjectDir().toPath().resolve(".idea");
+        var ideaDir = project.getProjectDir().toPath().resolve(".idea");
         createDirectories(ideaDir);
 
-        val layoutFile = project.getProjectDir().toPath().resolve("layout.json");
-        try (val writer = newBufferedWriter(layoutFile, UTF_8)) {
-            val layout = new JSONObject();
+        var layoutFile = project.getProjectDir().toPath().resolve("layout.json");
+        try (var writer = newBufferedWriter(layoutFile, UTF_8)) {
+            var layout = new JSONObject();
             layout.put("ideaDirPath", ideaDir.toString());
             layout.write(writer);
         }
@@ -45,10 +44,10 @@ class IdeaSettingsPluginTest {
     void pluginTasksDoNotHavePropertyProblems() {
         executeAfterEvaluateActions(project);
 
-        val taskClassNamePrefix = packageNameOf(IdeaSettingsPluginTest.class) + '.';
+        var taskClassNamePrefix = packageNameOf(IdeaSettingsPluginTest.class) + '.';
         project.getTasks().stream()
             .filter(task -> {
-                val taskClass = unwrapGeneratedSubclass(task.getClass());
+                var taskClass = unwrapGeneratedSubclass(task.getClass());
                 return taskClass.getName().startsWith(taskClassNamePrefix);
             })
             .map(TaskValidations::markTaskDependenciesAsSkipped)
@@ -70,7 +69,7 @@ class IdeaSettingsPluginTest {
 
 
     private void executeProcessIdeaSettingsTask() {
-        val processIdeaSettings = project.getTasks().getByName("processIdeaSettings");
+        var processIdeaSettings = project.getTasks().getByName("processIdeaSettings");
         assertTrue(executeOnlyIfSpecs(processIdeaSettings));
         executeActions(processIdeaSettings);
     }

@@ -9,7 +9,6 @@ import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
 
 import com.google.auto.service.AutoService;
 import java.util.Objects;
-import lombok.val;
 import name.remal.gradle_plugins.toolkit.ObjectUtils;
 import org.gradle.api.XmlProvider;
 import org.jdom2.Element;
@@ -28,15 +27,15 @@ public class EntryPointsConfigure
 
     @Override
     public void execute(XmlProvider xmlProvider) {
-        val document = parseJdomDocument(xmlProvider);
+        var document = parseJdomDocument(xmlProvider);
 
-        val entryPointsManager = ensureJdomElement(document.getRootElement(), "component", singletonMap(
+        var entryPointsManager = ensureJdomElement(document.getRootElement(), "component", singletonMap(
             "name", "EntryPointsManager"
         ));
 
-        val list = ensureJdomElement(entryPointsManager, "list");
+        var list = ensureJdomElement(entryPointsManager, "list");
 
-        val existingEntryPoints = list.getChildren("item").stream()
+        var existingEntryPoints = list.getChildren("item").stream()
             .map(it -> it.getAttributeValue("itemvalue"))
             .filter(ObjectUtils::isNotEmpty)
             .collect(toSet());
@@ -49,7 +48,7 @@ public class EntryPointsConfigure
             .distinct()
             .sorted()
             .forEach(entryPoint -> {
-                val item = new Element("item");
+                var item = new Element("item");
                 item.setAttribute("index", "");
                 item.setAttribute("class", "java.lang.String");
                 item.setAttribute("itemvalue", entryPoint);

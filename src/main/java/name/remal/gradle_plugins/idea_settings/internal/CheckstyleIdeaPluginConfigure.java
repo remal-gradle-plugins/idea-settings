@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import java.util.UUID;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
-import lombok.val;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
@@ -40,14 +39,14 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
         transformer.setParameter("is-bundled-sun-checks", isBundledSunChecksEnabled());
         transformer.setParameter("is-bundled-google-checks", isBundledGoogleChecksEnabled());
 
-        val configFilePathString = getConfigFilePath();
+        var configFilePathString = getConfigFilePath();
         if (configFilePathString != null) {
-            val configFilePath = normalizePath(Paths.get(configFilePathString));
-            val rootDirPath = getProjectRootDir();
-            val configFileRelativePath = rootDirPath != null && configFilePath.startsWith(rootDirPath)
+            var configFilePath = normalizePath(Paths.get(configFilePathString));
+            var rootDirPath = getProjectRootDir();
+            var configFileRelativePath = rootDirPath != null && configFilePath.startsWith(rootDirPath)
                 ? rootDirPath.relativize(configFilePath)
                 : configFilePath;
-            val configFileRelativePathString = configFileRelativePath.toString().replace(File.separatorChar, '/');
+            var configFileRelativePathString = configFileRelativePath.toString().replace(File.separatorChar, '/');
 
             final String locationType;
             final String location;
@@ -58,7 +57,7 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
                 locationType = "PROJECT_RELATIVE";
                 location = "$PROJECT_DIR$/" + configFileRelativePathString;
             }
-            val description = "Project file - " + configFileRelativePathString;
+            var description = "Project file - " + configFileRelativePathString;
             transformer.setParameter("config-new-id", UUID.randomUUID().toString());
             transformer.setParameter("config-location-type", locationType);
             transformer.setParameter("config-location", location);
@@ -66,7 +65,7 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
         }
 
         transformer.setParameter("thirdparty-classpath", emptyList());
-        val thirdPartyClasspathFilePaths = getThirdPartyClasspathFilePaths();
+        var thirdPartyClasspathFilePaths = getThirdPartyClasspathFilePaths();
         if (thirdPartyClasspathFilePaths != null) {
             transformer.setParameter("thirdparty-classpath", thirdPartyClasspathFilePaths.stream()
                 .map(this::relativizeThirdPartyClasspathPath)
@@ -76,8 +75,8 @@ public class CheckstyleIdeaPluginConfigure extends AbstractCheckstyleIdeaPluginP
     }
 
     private String relativizeThirdPartyClasspathPath(Path path) {
-        val rootDirPath = getProjectRootDir();
-        val resultPath = rootDirPath != null && path.startsWith(rootDirPath)
+        var rootDirPath = getProjectRootDir();
+        var resultPath = rootDirPath != null && path.startsWith(rootDirPath)
             ? rootDirPath.relativize(path)
             : path;
         String resultPathString = resultPath.toString().replace(File.separatorChar, '/');

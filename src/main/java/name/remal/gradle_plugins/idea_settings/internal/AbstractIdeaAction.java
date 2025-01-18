@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.util.Collection;
 import javax.annotation.Nullable;
 import lombok.SneakyThrows;
-import lombok.val;
 import name.remal.gradle_plugins.idea_settings.IdeaSettings;
 import org.gradle.api.Project;
 import org.jetbrains.annotations.ApiStatus.Internal;
@@ -83,8 +82,8 @@ abstract class AbstractIdeaAction implements IdeaXmlFileSettingsAction {
 
     @SneakyThrows
     protected static boolean isConfigured(Object object) {
-        for (val prop : getBeanInfo(unwrapGeneratedSubclass(object.getClass())).getPropertyDescriptors()) {
-            val readMethod = prop.getReadMethod();
+        for (var prop : getBeanInfo(unwrapGeneratedSubclass(object.getClass())).getPropertyDescriptors()) {
+            var readMethod = prop.getReadMethod();
             if (readMethod == null
                 || isNotPublic(readMethod)
                 || readMethod.getDeclaringClass() == Object.class
@@ -92,7 +91,7 @@ abstract class AbstractIdeaAction implements IdeaXmlFileSettingsAction {
                 continue;
             }
 
-            val value = readMethod.invoke(object);
+            var value = readMethod.invoke(object);
             if (value instanceof Collection) {
                 if (!((Collection<?>) value).isEmpty()) {
                     return true;

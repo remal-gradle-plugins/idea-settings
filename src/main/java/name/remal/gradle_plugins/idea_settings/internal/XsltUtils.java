@@ -29,7 +29,6 @@ import javax.xml.transform.stream.StreamSource;
 import lombok.CustomLog;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.val;
 import net.sf.saxon.jaxp.SaxonTransformerFactory;
 import net.sf.saxon.lib.Logger;
 import org.gradle.api.XmlProvider;
@@ -51,18 +50,18 @@ abstract class XsltUtils {
         URI templateUri,
         Consumer<Transformer> transformerConfigurer
     ) {
-        val transformer = compileTransformer(templateUri);
+        var transformer = compileTransformer(templateUri);
         transformerConfigurer.accept(transformer);
 
-        val sourceXmlString = xmlProvider.asString().toString();
-        val source = new StreamSource(new StringReader(sourceXmlString));
+        var sourceXmlString = xmlProvider.asString().toString();
+        var source = new StreamSource(new StringReader(sourceXmlString));
 
-        val stringWriter = new StringWriter();
-        val result = new StreamResult(stringWriter);
+        var stringWriter = new StringWriter();
+        var result = new StreamResult(stringWriter);
 
         transformer.transform(source, result);
 
-        val resultXmlString = stringWriter.toString();
+        var resultXmlString = stringWriter.toString();
         replaceXmlProviderContent(xmlProvider, resultXmlString);
     }
 
@@ -105,10 +104,10 @@ abstract class XsltUtils {
 
     @SneakyThrows
     public static Document generateDocumentWithXslt(URI templateUri, Consumer<Transformer> transformerConfigurer) {
-        val transformer = compileTransformer(templateUri);
+        var transformer = compileTransformer(templateUri);
         transformerConfigurer.accept(transformer);
 
-        val result = new DOMResult();
+        var result = new DOMResult();
         transformer.transform(new DOMSource(), result);
         return getNodeOwnerDocument(result.getNode());
     }
@@ -129,8 +128,8 @@ abstract class XsltUtils {
 
     @SneakyThrows
     private static Transformer compileTransformer(URI templateUri) {
-        val transformerSource = resolveUri(templateUri.toString());
-        val transformer = TRANSFORMER_FACTORY.newTransformer(transformerSource);
+        var transformerSource = resolveUri(templateUri.toString());
+        var transformer = TRANSFORMER_FACTORY.newTransformer(transformerSource);
         transformer.setOutputProperty(METHOD, "xml");
         transformer.setOutputProperty(INDENT, "true");
         transformer.setParameter("line-separator", lineSeparator());
@@ -140,7 +139,7 @@ abstract class XsltUtils {
     private static final TransformerFactory TRANSFORMER_FACTORY;
 
     static {
-        val transformerFactory = new SaxonTransformerFactory();
+        var transformerFactory = new SaxonTransformerFactory();
 
         transformerFactory.setErrorListener(new ErrorListener() {
             @Override
@@ -185,7 +184,7 @@ abstract class XsltUtils {
     @SuppressWarnings("java:S3776")
     private static Source resolveUri(String href, @Nullable String base) throws TransformerException {
         try {
-            val hrefUri = new URI(href);
+            var hrefUri = new URI(href);
 
             final URI resultUri;
             if (base == null) {
@@ -193,7 +192,7 @@ abstract class XsltUtils {
                 resultUri = hrefUri;
 
             } else {
-                val baseUri = new URI(base);
+                var baseUri = new URI(base);
                 if (hrefUri.isAbsolute()) {
                     throw new TransformerException("Not a relative href: " + href);
                 } else {
@@ -201,7 +200,7 @@ abstract class XsltUtils {
                 }
 
                 if (JAR_PROTOCOL.equals(baseUri.getScheme())) {
-                    val baseSubUri = new URI(baseUri.getSchemeSpecificPart());
+                    var baseSubUri = new URI(baseUri.getSchemeSpecificPart());
                     String baseFilePath = baseSubUri.getPath();
                     String baseEntryName = "";
                     int delimPos = baseFilePath.indexOf('!');
@@ -212,7 +211,7 @@ abstract class XsltUtils {
                         baseFilePath = baseFilePath.substring(0, delimPos);
                     }
 
-                    val resultPath = new URI(baseEntryName).resolve(hrefUri.getPath()).toString();
+                    var resultPath = new URI(baseEntryName).resolve(hrefUri.getPath()).toString();
                     resultUri = new URI(format(
                         "%s:%s:%s!%s",
                         JAR_PROTOCOL,
@@ -230,13 +229,13 @@ abstract class XsltUtils {
 
             final byte[] resourceBytes;
             if (CLASSPATH_PROTOCOL.equals(resultUri.getScheme())) {
-                val resourceName = resultUri.getPath();
+                var resourceName = resultUri.getPath();
                 resourceBytes = readResource(resourceName, XsltUtils.class);
             } else {
-                val url = resultUri.toURL();
-                val connection = url.openConnection();
+                var url = resultUri.toURL();
+                var connection = url.openConnection();
                 connection.setUseCaches(false);
-                try (val inputStream = connection.getInputStream()) {
+                try (var inputStream = connection.getInputStream()) {
                     resourceBytes = toByteArray(inputStream);
                 }
             }
@@ -260,9 +259,9 @@ abstract class XsltUtils {
             ));
         }
 
-        val scheme = uri.getScheme();
+        var scheme = uri.getScheme();
         if (JAR_PROTOCOL.equals(scheme)) {
-            val subUri = new URI(uri.getSchemeSpecificPart());
+            var subUri = new URI(uri.getSchemeSpecificPart());
             checkProtocol(context, subUri);
             return;
         }

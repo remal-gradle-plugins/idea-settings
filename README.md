@@ -9,11 +9,13 @@
 Usage:
 
 <!--plugin-usage:name.remal.idea-settings-->
+
 ```groovy
 plugins {
-    id 'name.remal.idea-settings' version '3.0.16'
+  id 'name.remal.idea-settings' version '3.0.16'
 }
 ```
+
 <!--/plugin-usage-->
 
 &nbsp;
@@ -149,6 +151,10 @@ ideaSettings {
 ```
 
 # Migration guide
+
+## Version 2.* to 3.*
+
+Minimum Java version is 11.
 
 ## Version 2.* to 3.*
 

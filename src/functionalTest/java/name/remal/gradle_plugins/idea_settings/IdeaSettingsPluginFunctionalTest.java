@@ -5,7 +5,6 @@ import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Files.newBufferedWriter;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import name.remal.gradle_plugins.toolkit.testkit.functional.GradleProject;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,12 +24,12 @@ class IdeaSettingsPluginFunctionalTest {
 
         project.withoutConfigurationCache();
 
-        val ideaDir = project.getProjectDir().toPath().resolve(".idea");
+        var ideaDir = project.getProjectDir().toPath().resolve(".idea");
         createDirectories(ideaDir);
 
-        val layoutFile = project.getProjectDir().toPath().resolve("layout.json");
-        try (val writer = newBufferedWriter(layoutFile, UTF_8)) {
-            val layout = new JSONObject();
+        var layoutFile = project.getProjectDir().toPath().resolve("layout.json");
+        try (var writer = newBufferedWriter(layoutFile, UTF_8)) {
+            var layout = new JSONObject();
             layout.put("ideaDirPath", ideaDir.toString());
             layout.write(writer);
         }

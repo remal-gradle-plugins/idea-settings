@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import lombok.val;
 import org.gradle.internal.os.OperatingSystem;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,7 @@ class ConfigureExternalAnnotationsRootTest {
 
     @Test
     void doesFileUriStartWith_windows() {
-        val result = ConfigureExternalAnnotationsRoot.doesFileUriStartWith("file://C:/dir", "file://c:");
+        var result = ConfigureExternalAnnotationsRoot.doesFileUriStartWith("file://C:/dir", "file://c:");
         assertEquals(OperatingSystem.current().isWindows(), result);
     }
 

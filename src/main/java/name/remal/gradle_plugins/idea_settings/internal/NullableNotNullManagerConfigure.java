@@ -7,7 +7,6 @@ import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.replace
 import static name.remal.gradle_plugins.toolkit.ObjectUtils.isNotEmpty;
 
 import com.google.auto.service.AutoService;
-import lombok.val;
 import org.gradle.api.XmlProvider;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import org.jetbrains.annotations.Nullable;
@@ -44,19 +43,19 @@ public class NullableNotNullManagerConfigure
 
     @Override
     public void execute(XmlProvider xmlProvider) {
-        val document = parseJdomDocument(xmlProvider);
+        var document = parseJdomDocument(xmlProvider);
 
-        val nullableNotNullManager = ensureJdomElement(document.getRootElement(), "component", singletonMap(
+        var nullableNotNullManager = ensureJdomElement(document.getRootElement(), "component", singletonMap(
             "name", "NullableNotNullManager"
         ));
 
-        val defaultNotNullAnnotation = getDefaultNotNullAnnotation();
+        var defaultNotNullAnnotation = getDefaultNotNullAnnotation();
         if (isNotEmpty(defaultNotNullAnnotation)) {
             ensureJdomElement(nullableNotNullManager, "option", singletonMap("name", "myDefaultNotNull"))
                 .setAttribute("value", defaultNotNullAnnotation);
         }
 
-        val defaultNullableAnnotation = getDefaultNullableAnnotation();
+        var defaultNullableAnnotation = getDefaultNullableAnnotation();
         if (isNotEmpty(defaultNullableAnnotation)) {
             ensureJdomElement(nullableNotNullManager, "option", singletonMap("name", "myDefaultNullable"))
                 .setAttribute("value", defaultNullableAnnotation);

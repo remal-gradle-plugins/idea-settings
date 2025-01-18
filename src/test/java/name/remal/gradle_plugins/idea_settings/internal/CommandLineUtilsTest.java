@@ -1,10 +1,8 @@
 package name.remal.gradle_plugins.idea_settings.internal;
 
-import com.google.common.collect.ImmutableList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.val;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,41 +11,41 @@ class CommandLineUtilsTest {
     @Test
     void parseCommandLine_windows() {
         Map<String, List<String>> map = new LinkedHashMap<>();
-        map.put("", ImmutableList.of());
-        map.put("  ", ImmutableList.of());
-        map.put("\"\"", ImmutableList.of(""));
-        map.put("\"\"\"\"", ImmutableList.of("\""));
-        map.put("\"\"\"\"\"\"", ImmutableList.of("\"\""));
-        map.put("CallMeIshmael", ImmutableList.of("CallMeIshmael"));
-        map.put("\"Call Me Ishmael\"", ImmutableList.of("Call Me Ishmael"));
-        map.put("Cal\"l Me I\"shmael", ImmutableList.of("Call Me Ishmael"));
-        map.put("CallMe\\\"Ishmael", ImmutableList.of("CallMe\\Ishmael")); // not ImmutableList.of("CallMe\"Ishmael")
-        map.put("\"CallMe\\\"Ishmael\"", ImmutableList.of("CallMe\"Ishmael"));
-        map.put("\"Call Me Ishmael\\\\\"", ImmutableList.of("Call Me Ishmael\\"));
-        map.put("\"CallMe\\\\\\\"Ishmael\"", ImmutableList.of("CallMe\\\"Ishmael"));
-        map.put("a\\\\\\b", ImmutableList.of("a\\\\b")); // not ImmutableList.of("a\\\\\\b")
-        map.put("\"a\\\\\\b\"", ImmutableList.of("a\\\\b")); // not ImmutableList.of("a\\\\\\b")
-        map.put("\"\\\"Call Me Ishmael\\\"\"", ImmutableList.of("\"Call Me Ishmael\""));
-        map.put("\"C:\\TEST A\\\\\"", ImmutableList.of("C:\\TEST A\\"));
-        map.put("\"\\\"C:\\TEST A\\\\\\\"\"", ImmutableList.of("\"C:\\TEST A\\\""));
-        map.put("\"a b c\"  d  e", ImmutableList.of("a b c", "d", "e"));
-        map.put("\"ab\\\"c\"  \"\\\\\"  d", ImmutableList.of("ab\"c", "\\", "d"));
+        map.put("", List.of());
+        map.put("  ", List.of());
+        map.put("\"\"", List.of(""));
+        map.put("\"\"\"\"", List.of("\""));
+        map.put("\"\"\"\"\"\"", List.of("\"\""));
+        map.put("CallMeIshmael", List.of("CallMeIshmael"));
+        map.put("\"Call Me Ishmael\"", List.of("Call Me Ishmael"));
+        map.put("Cal\"l Me I\"shmael", List.of("Call Me Ishmael"));
+        map.put("CallMe\\\"Ishmael", List.of("CallMe\\Ishmael")); // not List.of("CallMe\"Ishmael")
+        map.put("\"CallMe\\\"Ishmael\"", List.of("CallMe\"Ishmael"));
+        map.put("\"Call Me Ishmael\\\\\"", List.of("Call Me Ishmael\\"));
+        map.put("\"CallMe\\\\\\\"Ishmael\"", List.of("CallMe\\\"Ishmael"));
+        map.put("a\\\\\\b", List.of("a\\\\b")); // not List.of("a\\\\\\b")
+        map.put("\"a\\\\\\b\"", List.of("a\\\\b")); // not List.of("a\\\\\\b")
+        map.put("\"\\\"Call Me Ishmael\\\"\"", List.of("\"Call Me Ishmael\""));
+        map.put("\"C:\\TEST A\\\\\"", List.of("C:\\TEST A\\"));
+        map.put("\"\\\"C:\\TEST A\\\\\\\"\"", List.of("\"C:\\TEST A\\\""));
+        map.put("\"a b c\"  d  e", List.of("a b c", "d", "e"));
+        map.put("\"ab\\\"c\"  \"\\\\\"  d", List.of("ab\"c", "\\", "d"));
         map.put(
             "a\\\\\\b d\"e f\"g h",
-            ImmutableList.of("a\\\\b", "de fg", "h")
-        ); // not ImmutableList.of("a\\\\\\b", "de fg", "h")
-        map.put("a\\\\\\\"b c d", ImmutableList.of("a\\\\b c d")); // not ImmutableList.of("a\\\"b", "c", "d")
-        map.put("a\\\\\\\\\"b c\" d e", ImmutableList.of("a\\\\b c", "d", "e"));
-        map.put("\"a b c\"\"", ImmutableList.of("a b c\""));
-        map.put("\"\"\"CallMeIshmael\"\"\"  b  c", ImmutableList.of("\"CallMeIshmael\"", "b", "c"));
-        map.put("\"\"\"Call Me Ishmael\"\"\"", ImmutableList.of("\"Call Me Ishmael\""));
-        map.put("\"\"\"\"Call Me Ishmael\"\" b c", ImmutableList.of("\"Call", "Me", "Ishmael", "b", "c"));
-        map.put("'Call Me Ishmael'", ImmutableList.of("'Call", "Me", "Ishmael'"));
-        map.put("CallMe\\$Ishmael", ImmutableList.of("CallMe\\$Ishmael"));
+            List.of("a\\\\b", "de fg", "h")
+        ); // not List.of("a\\\\\\b", "de fg", "h")
+        map.put("a\\\\\\\"b c d", List.of("a\\\\b c d")); // not List.of("a\\\"b", "c", "d")
+        map.put("a\\\\\\\\\"b c\" d e", List.of("a\\\\b c", "d", "e"));
+        map.put("\"a b c\"\"", List.of("a b c\""));
+        map.put("\"\"\"CallMeIshmael\"\"\"  b  c", List.of("\"CallMeIshmael\"", "b", "c"));
+        map.put("\"\"\"Call Me Ishmael\"\"\"", List.of("\"Call Me Ishmael\""));
+        map.put("\"\"\"\"Call Me Ishmael\"\" b c", List.of("\"Call", "Me", "Ishmael", "b", "c"));
+        map.put("'Call Me Ishmael'", List.of("'Call", "Me", "Ishmael'"));
+        map.put("CallMe\\$Ishmael", List.of("CallMe\\$Ishmael"));
 
-        val softly = new SoftAssertions();
-        for (val entry : map.entrySet()) {
-            val parsedParameters = CommandLineUtils.parseCommandLine(
+        var softly = new SoftAssertions();
+        for (var entry : map.entrySet()) {
+            var parsedParameters = CommandLineUtils.parseCommandLine(
                 entry.getKey(),
                 false,
                 true,
@@ -62,38 +60,38 @@ class CommandLineUtilsTest {
     @Test
     void parseCommandLine_linux() {
         Map<String, List<String>> map = new LinkedHashMap<>();
-        map.put("", ImmutableList.of());
-        map.put("  ", ImmutableList.of());
-        map.put("\"\"", ImmutableList.of(""));
-        map.put("\"\"\"\"", ImmutableList.of(""));
-        map.put("\"\"\"\"\"\"", ImmutableList.of(""));
-        map.put("CallMeIshmael", ImmutableList.of("CallMeIshmael"));
-        map.put("\"Call Me Ishmael\"", ImmutableList.of("Call Me Ishmael"));
-        map.put("Cal\"l Me I\"shmael", ImmutableList.of("Call Me Ishmael"));
-        map.put("CallMe\\\"Ishmael", ImmutableList.of("CallMe\\Ishmael"));
-        map.put("\"CallMe\\\"Ishmael\"", ImmutableList.of("CallMe\"Ishmael"));
-        map.put("\"Call Me Ishmael\\\\\"", ImmutableList.of("Call Me Ishmael\\"));
-        map.put("\"CallMe\\\\\\\"Ishmael\"", ImmutableList.of("CallMe\\\"Ishmael"));
-        map.put("a\\\\\\b", ImmutableList.of("a\\\\b"));
-        map.put("\"a\\\\\\b\"", ImmutableList.of("a\\\\b"));
-        map.put("\"\\\"Call Me Ishmael\\\"\"", ImmutableList.of("\"Call Me Ishmael\""));
-        map.put("\"C:\\TEST A\\\\\"", ImmutableList.of("C:\\TEST A\\"));
-        map.put("\"\\\"C:\\TEST A\\\\\\\"\"", ImmutableList.of("\"C:\\TEST A\\\""));
-        map.put("\"a b c\"  d  e", ImmutableList.of("a b c", "d", "e"));
-        map.put("\"ab\\\"c\"  \"\\\\\"  d", ImmutableList.of("ab\"c", "\\", "d"));
-        map.put("a\\\\\\b d\"e f\"g h", ImmutableList.of("a\\\\b", "de fg", "h"));
-        map.put("a\\\\\\\"b c d", ImmutableList.of("a\\\\b c d"));
-        map.put("a\\\\\\\\\"b c\" d e", ImmutableList.of("a\\\\b c", "d", "e"));
-        map.put("\"a b c\"\"", ImmutableList.of("a b c"));
-        map.put("\"\"\"CallMeIshmael\"\"\"  b  c", ImmutableList.of("CallMeIshmael", "b", "c"));
-        map.put("\"\"\"Call Me Ishmael\"\"\"", ImmutableList.of("Call Me Ishmael"));
-        map.put("\"\"\"\"Call Me Ishmael\"\" b c", ImmutableList.of("Call", "Me", "Ishmael", "b", "c"));
-        map.put("'Call Me Ishmael'", ImmutableList.of("Call Me Ishmael"));
-        map.put("CallMe\\$Ishmael", ImmutableList.of("CallMe$Ishmael"));
+        map.put("", List.of());
+        map.put("  ", List.of());
+        map.put("\"\"", List.of(""));
+        map.put("\"\"\"\"", List.of(""));
+        map.put("\"\"\"\"\"\"", List.of(""));
+        map.put("CallMeIshmael", List.of("CallMeIshmael"));
+        map.put("\"Call Me Ishmael\"", List.of("Call Me Ishmael"));
+        map.put("Cal\"l Me I\"shmael", List.of("Call Me Ishmael"));
+        map.put("CallMe\\\"Ishmael", List.of("CallMe\\Ishmael"));
+        map.put("\"CallMe\\\"Ishmael\"", List.of("CallMe\"Ishmael"));
+        map.put("\"Call Me Ishmael\\\\\"", List.of("Call Me Ishmael\\"));
+        map.put("\"CallMe\\\\\\\"Ishmael\"", List.of("CallMe\\\"Ishmael"));
+        map.put("a\\\\\\b", List.of("a\\\\b"));
+        map.put("\"a\\\\\\b\"", List.of("a\\\\b"));
+        map.put("\"\\\"Call Me Ishmael\\\"\"", List.of("\"Call Me Ishmael\""));
+        map.put("\"C:\\TEST A\\\\\"", List.of("C:\\TEST A\\"));
+        map.put("\"\\\"C:\\TEST A\\\\\\\"\"", List.of("\"C:\\TEST A\\\""));
+        map.put("\"a b c\"  d  e", List.of("a b c", "d", "e"));
+        map.put("\"ab\\\"c\"  \"\\\\\"  d", List.of("ab\"c", "\\", "d"));
+        map.put("a\\\\\\b d\"e f\"g h", List.of("a\\\\b", "de fg", "h"));
+        map.put("a\\\\\\\"b c d", List.of("a\\\\b c d"));
+        map.put("a\\\\\\\\\"b c\" d e", List.of("a\\\\b c", "d", "e"));
+        map.put("\"a b c\"\"", List.of("a b c"));
+        map.put("\"\"\"CallMeIshmael\"\"\"  b  c", List.of("CallMeIshmael", "b", "c"));
+        map.put("\"\"\"Call Me Ishmael\"\"\"", List.of("Call Me Ishmael"));
+        map.put("\"\"\"\"Call Me Ishmael\"\" b c", List.of("Call", "Me", "Ishmael", "b", "c"));
+        map.put("'Call Me Ishmael'", List.of("Call Me Ishmael"));
+        map.put("CallMe\\$Ishmael", List.of("CallMe$Ishmael"));
 
-        val softly = new SoftAssertions();
-        for (val entry : map.entrySet()) {
-            val parsedParameters = CommandLineUtils.parseCommandLine(
+        var softly = new SoftAssertions();
+        for (var entry : map.entrySet()) {
+            var parsedParameters = CommandLineUtils.parseCommandLine(
                 entry.getKey(),
                 true,
                 false,
@@ -109,19 +107,19 @@ class CommandLineUtilsTest {
     @Test
     void createCommandLine_windows() {
         Map<List<String>, String> map = new LinkedHashMap<>();
-        map.put(ImmutableList.of(), "");
-        map.put(ImmutableList.of(""), "\"\"");
-        map.put(ImmutableList.of("", ""), "\"\" \"\"");
-        map.put(ImmutableList.of("ab"), "ab");
-        map.put(ImmutableList.of("a b"), "\"a b\"");
-        map.put(ImmutableList.of("a'b"), "a'b");
-        map.put(ImmutableList.of("a\"b"), "\"a\\\"b\"");
-        map.put(ImmutableList.of("a\\\"b"), "\"a\\\\\\\"b\"");
-        map.put(ImmutableList.of("a$b"), "a$b");
+        map.put(List.of(), "");
+        map.put(List.of(""), "\"\"");
+        map.put(List.of("", ""), "\"\" \"\"");
+        map.put(List.of("ab"), "ab");
+        map.put(List.of("a b"), "\"a b\"");
+        map.put(List.of("a'b"), "a'b");
+        map.put(List.of("a\"b"), "\"a\\\"b\"");
+        map.put(List.of("a\\\"b"), "\"a\\\\\\\"b\"");
+        map.put(List.of("a$b"), "a$b");
 
-        val softly = new SoftAssertions();
-        for (val entry : map.entrySet()) {
-            val string = CommandLineUtils.createCommandLine(
+        var softly = new SoftAssertions();
+        for (var entry : map.entrySet()) {
+            var string = CommandLineUtils.createCommandLine(
                 entry.getKey(),
                 false,
                 CommandLineUtils.WINDOWS_CHARS_TO_ESCAPE
@@ -135,19 +133,19 @@ class CommandLineUtilsTest {
     @Test
     void createCommandLine_linux() {
         Map<List<String>, String> map = new LinkedHashMap<>();
-        map.put(ImmutableList.of(), "");
-        map.put(ImmutableList.of(""), "\"\"");
-        map.put(ImmutableList.of("", ""), "\"\" \"\"");
-        map.put(ImmutableList.of("ab"), "ab");
-        map.put(ImmutableList.of("a b"), "\"a b\"");
-        map.put(ImmutableList.of("a'b"), "\"a'b\"");
-        map.put(ImmutableList.of("a\"b"), "\"a\\\"b\"");
-        map.put(ImmutableList.of("a\\\"b"), "\"a\\\\\\\"b\"");
-        map.put(ImmutableList.of("a$b"), "\"a\\$b\"");
+        map.put(List.of(), "");
+        map.put(List.of(""), "\"\"");
+        map.put(List.of("", ""), "\"\" \"\"");
+        map.put(List.of("ab"), "ab");
+        map.put(List.of("a b"), "\"a b\"");
+        map.put(List.of("a'b"), "\"a'b\"");
+        map.put(List.of("a\"b"), "\"a\\\"b\"");
+        map.put(List.of("a\\\"b"), "\"a\\\\\\\"b\"");
+        map.put(List.of("a$b"), "\"a\\$b\"");
 
-        val softly = new SoftAssertions();
-        for (val entry : map.entrySet()) {
-            val string = CommandLineUtils.createCommandLine(
+        var softly = new SoftAssertions();
+        for (var entry : map.entrySet()) {
+            var string = CommandLineUtils.createCommandLine(
                 entry.getKey(),
                 true,
                 CommandLineUtils.LINUX_CHARS_TO_ESCAPE

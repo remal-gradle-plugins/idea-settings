@@ -11,7 +11,6 @@ import java.io.File;
 import java.net.URI;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
-import lombok.val;
 import org.gradle.internal.os.OperatingSystem;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
@@ -26,7 +25,7 @@ public class ConfigureExternalAnnotationsRoot extends AbstractXsltSpecificIdeaXm
 
     @Override
     public boolean isEnabled() {
-        val externalAnnotationsRootDir = getIdeaSettings().getExternalAnnotationsRootDir();
+        var externalAnnotationsRootDir = getIdeaSettings().getExternalAnnotationsRootDir();
         return externalAnnotationsRootDir != null
             && "file".equals(externalAnnotationsRootDir.toUri().getScheme());
     }
@@ -41,14 +40,14 @@ public class ConfigureExternalAnnotationsRoot extends AbstractXsltSpecificIdeaXm
     protected void configureTransformer(Transformer transformer) {
         super.configureTransformer(transformer);
 
-        val externalAnnotationsRootDir = requireNonNull(getIdeaSettings().getExternalAnnotationsRootDir());
-        val externalAnnotationsRootUri = externalAnnotationsRootDir.toUri();
+        var externalAnnotationsRootDir = requireNonNull(getIdeaSettings().getExternalAnnotationsRootDir());
+        var externalAnnotationsRootUri = externalAnnotationsRootDir.toUri();
         String externalAnnotationsRoot = getPathFromUri(externalAnnotationsRootUri);
 
-        val userHomePathString = System.getProperty("user.home");
+        var userHomePathString = System.getProperty("user.home");
         if (isNotEmpty(userHomePathString)) {
-            val userHomePath = normalizePath(new File(userHomePathString).toPath());
-            val userHome = getPathFromUri(userHomePath.toUri());
+            var userHomePath = normalizePath(new File(userHomePathString).toPath());
+            var userHome = getPathFromUri(userHomePath.toUri());
             if (doesFileUriStartWith(externalAnnotationsRoot, userHome + '/')) {
                 externalAnnotationsRoot = externalAnnotationsRootUri.getScheme()
                     + "://$USER_HOME$"

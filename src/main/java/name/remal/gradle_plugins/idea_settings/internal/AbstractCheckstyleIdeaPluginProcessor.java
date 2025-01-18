@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Nullable;
 import lombok.Getter;
-import lombok.val;
 import name.remal.gradle_plugins.idea_settings.IdeaSettings;
 import name.remal.gradle_plugins.toolkit.PathUtils;
 import org.gradle.api.Project;
@@ -60,7 +59,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
     public void setProject(Project project) {
         super.setProject(project);
 
-        val checkstyleProject = project.getAllprojects().stream()
+        var checkstyleProject = project.getAllprojects().stream()
             .filter(it -> it.getPluginManager().hasPlugin("checkstyle"))
             .findFirst()
             .orElse(null);
@@ -68,7 +67,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
             return;
         }
 
-        val checkstyle = checkstyleProject.getExtensions().getByType(CheckstyleExtension.class);
+        var checkstyle = checkstyleProject.getExtensions().getByType(CheckstyleExtension.class);
 
         this.enabled = true;
         this.version = checkstyle.getToolVersion();
@@ -84,9 +83,9 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
         }
 
         this.thirdPartyClasspathFilePaths = asLazySetProxy(() -> {
-            val originalCheckstyleConfiguration = checkstyleProject.getConfigurations().getByName("checkstyle");
+            var originalCheckstyleConfiguration = checkstyleProject.getConfigurations().getByName("checkstyle");
 
-            val consumableConfigurationName = join(
+            var consumableConfigurationName = join(
                 "$",
                 originalCheckstyleConfiguration.getName(),
                 AbstractCheckstyleIdeaPluginProcessor.class.getSimpleName()
@@ -111,7 +110,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
             if (checkstyleProject == project) {
                 checkstyleConfiguration = consumableConfiguration;
             } else {
-                val dependency = project.getDependencies().project(ImmutableMap.of(
+                var dependency = project.getDependencies().project(ImmutableMap.of(
                     "path", checkstyleProject.getPath(),
                     "configuration", consumableConfiguration.getName()
                 ));
@@ -150,7 +149,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
 
         this.treatErrorsAsWarnings = ideaSettings.getCheckstyle().getTreatErrorsAsWarnings();
 
-        val checkstyleSettings = ideaSettings.getCheckstyle();
+        var checkstyleSettings = ideaSettings.getCheckstyle();
         if (checkstyleSettings.isBundledSunChecksEnabled()) {
             this.bundledSunChecksEnabled = true;
         } else if (checkstyleSettings.isBundledGoogleChecksEnabled()) {

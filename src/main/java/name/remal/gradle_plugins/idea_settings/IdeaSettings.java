@@ -26,7 +26,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.val;
 import name.remal.gradle_plugins.idea_settings.internal.IdeaSettingsAction;
 import name.remal.gradle_plugins.idea_settings.internal.SpecificIdeaXmlFileInitializer;
 import name.remal.gradle_plugins.idea_settings.internal.SpecificIdeaXmlFileProcessor;
@@ -136,7 +135,7 @@ public class IdeaSettings {
 
     public void setXmlFileInitializer(String relativeFilePath, Supplier<Document> initializer) {
         relativeFilePath = canonizeIdeaSettingsRelativeFilePath(relativeFilePath);
-        val prevInitializer = xmlFileInitializers.putIfAbsent(relativeFilePath, initializer);
+        var prevInitializer = xmlFileInitializers.putIfAbsent(relativeFilePath, initializer);
         if (prevInitializer != null) {
             throw new IllegalArgumentException("Initializer for IDEA file has already been added: " + relativeFilePath);
         }
@@ -151,7 +150,7 @@ public class IdeaSettings {
         Object xsltTemplateFile,
         Map<String, Object> templateParams
     ) {
-        val xsltTemplateUri = project.file(xsltTemplateFile).toURI();
+        var xsltTemplateUri = project.file(xsltTemplateFile).toURI();
         setXmlFileInitializer(relativeFilePath, new XsltFileIdeaXmlFileInitializer(xsltTemplateUri, templateParams));
     }
 
@@ -187,7 +186,7 @@ public class IdeaSettings {
         Object xsltTemplateFile,
         Map<String, Object> xsltTemplateParams
     ) {
-        val xsltTemplateUri = project.file(xsltTemplateFile).toURI();
+        var xsltTemplateUri = project.file(xsltTemplateFile).toURI();
         processXmlFile(relativeFilePath, new XsltFileIdeaXmlFileProcessor(xsltTemplateUri, xsltTemplateParams));
     }
 
@@ -221,7 +220,7 @@ public class IdeaSettings {
         Object xsltTemplateFile,
         Map<String, Object> templateParams
     ) {
-        val xsltTemplateUri = project.file(xsltTemplateFile).toURI();
+        var xsltTemplateUri = project.file(xsltTemplateFile).toURI();
         addXmlFilesPostProcessor(new XsltFileIdeaXmlFilePostProcessor(xsltTemplateUri, templateParams));
     }
 

@@ -9,7 +9,6 @@ import java.net.URI;
 import java.util.Objects;
 import javax.xml.transform.Transformer;
 import lombok.SneakyThrows;
-import lombok.val;
 import org.jetbrains.annotations.ApiStatus.Internal;
 
 @Internal
@@ -31,7 +30,7 @@ public class RequirePlugins extends AbstractXsltSpecificIdeaXmlFileProcessor {
     protected void configureTransformer(Transformer transformer) {
         super.configureTransformer(transformer);
 
-        val requiredPlugins = getIdeaSettings().getRequiredPlugins().stream()
+        var requiredPlugins = getIdeaSettings().getRequiredPlugins().stream()
             .filter(Objects::nonNull)
             .map(Object::toString)
             .map(String::trim)

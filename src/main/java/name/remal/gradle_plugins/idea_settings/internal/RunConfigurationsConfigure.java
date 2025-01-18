@@ -27,7 +27,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
-import lombok.val;
 import name.remal.gradle_plugins.toolkit.ObjectUtils;
 import org.gradle.api.XmlProvider;
 import org.jdom2.Document;
@@ -52,7 +51,7 @@ public class RunConfigurationsConfigure
 
     @Override
     public void execute(XmlProvider xmlProvider) {
-        val document = parseJdomDocument(xmlProvider);
+        var document = parseJdomDocument(xmlProvider);
 
         getRunConfigurations(document, "Application", "Application")
             .forEach(this::processJavaApplicationRunConfiguration);
@@ -70,15 +69,15 @@ public class RunConfigurationsConfigure
             () -> detachJdomElement(configuration, "shortenClasspath")
         );
 
-        val jvmParameters = normalizeListOfStrings(
+        var jvmParameters = normalizeListOfStrings(
             getIdeaSettings().getRunConfigurations().getJavaApplication().getJvmParameters()
         );
         if (!jvmParameters.isEmpty()) {
-            val jvmParametersOption = ensureJdomElement(configuration, "option", singletonMap("name", "VM_PARAMETERS"));
-            val existingJvmParameters = parseCommandLine(jvmParametersOption.getAttributeValue("value"));
+            var jvmParametersOption = ensureJdomElement(configuration, "option", singletonMap("name", "VM_PARAMETERS"));
+            var existingJvmParameters = parseCommandLine(jvmParametersOption.getAttributeValue("value"));
 
-            val jvmProperties = collectJvmProperties(existingJvmParameters, jvmParameters);
-            val mergedJvmParameters = mergeJvmParameters(
+            var jvmProperties = collectJvmProperties(existingJvmParameters, jvmParameters);
+            var mergedJvmParameters = mergeJvmParameters(
                 existingJvmParameters,
                 jvmParameters,
                 jvmProperties
@@ -94,21 +93,21 @@ public class RunConfigurationsConfigure
             () -> detachJdomElement(configuration, "option", singletonMap("name", "SHORTEN_COMMAND_LINE"))
         );
 
-        val activeProfilesOption = ensureJdomElement(configuration, "option", singletonMap("name", "ACTIVE_PROFILES"));
-        val existingActiveProfiles = activeProfilesOption.getAttributeValue("value");
+        var activeProfilesOption = ensureJdomElement(configuration, "option", singletonMap("name", "ACTIVE_PROFILES"));
+        var existingActiveProfiles = activeProfilesOption.getAttributeValue("value");
 
-        val jvmParameters = normalizeListOfStrings(
+        var jvmParameters = normalizeListOfStrings(
             getIdeaSettings().getRunConfigurations().getJavaApplication().getJvmParameters()
         );
-        val jvmParametersOption = ensureJdomElement(configuration, "option", singletonMap("name", "VM_PARAMETERS"));
-        val existingJvmParameters = parseCommandLine(jvmParametersOption.getAttributeValue("value"));
+        var jvmParametersOption = ensureJdomElement(configuration, "option", singletonMap("name", "VM_PARAMETERS"));
+        var existingJvmParameters = parseCommandLine(jvmParametersOption.getAttributeValue("value"));
 
-        val jvmProperties = collectJvmProperties(existingJvmParameters, jvmParameters);
-        val activeProfiles = jvmProperties.remove("spring.profiles.active");
-        val activeProfilesToSet = joinSpringProfiles(existingActiveProfiles, activeProfiles);
+        var jvmProperties = collectJvmProperties(existingJvmParameters, jvmParameters);
+        var activeProfiles = jvmProperties.remove("spring.profiles.active");
+        var activeProfilesToSet = joinSpringProfiles(existingActiveProfiles, activeProfiles);
         activeProfilesOption.setAttribute("value", activeProfilesToSet);
 
-        val mergedJvmParameters = mergeJvmParameters(
+        var mergedJvmParameters = mergeJvmParameters(
             existingJvmParameters,
             jvmParameters,
             jvmProperties
@@ -118,7 +117,7 @@ public class RunConfigurationsConfigure
 
 
     private void processShortenCommandLine(Runnable onEnabled, Runnable onDisabled) {
-        val shortenCommandLine = getIdeaSettings().getRunConfigurations().getJavaApplication().getShortenCommandLine();
+        var shortenCommandLine = getIdeaSettings().getRunConfigurations().getJavaApplication().getShortenCommandLine();
         if (shortenCommandLine == null) {
             // do nothing
         } else if (shortenCommandLine) {
@@ -138,9 +137,9 @@ public class RunConfigurationsConfigure
             .filter(startsWithString("-P"))
             .map(param -> param.substring(2))
             .forEach(param -> {
-                val delimPos = param.indexOf('=');
+                var delimPos = param.indexOf('=');
                 if (delimPos > 0) {
-                    val key = param.substring(0, delimPos);
+                    var key = param.substring(0, delimPos);
                     String value = param.substring(delimPos + 1);
                     if (key.equals("spring.profiles.active")) {
                         value = joinSpringProfiles(jvmProperties.get(key), value);
@@ -156,7 +155,7 @@ public class RunConfigurationsConfigure
             return "";
         }
 
-        val splitter = Splitter.on(',');
+        var splitter = Splitter.on(',');
         return stream(values)
             .filter(Objects::nonNull)
             .map(splitter::splitToList)

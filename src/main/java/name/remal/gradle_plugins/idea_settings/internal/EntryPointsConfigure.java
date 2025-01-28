@@ -1,11 +1,11 @@
 package name.remal.gradle_plugins.idea_settings.internal;
 
 import static java.util.Collections.singletonMap;
+import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toSet;
 import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.ensureJdomElement;
 import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.parseJdomDocument;
 import static name.remal.gradle_plugins.idea_settings.internal.JdomUtils.replaceXmlProviderContentWithJdom;
-import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
 
 import com.google.auto.service.AutoService;
 import java.util.Objects;

@@ -1,7 +1,7 @@
 package name.remal.gradle_plugins.idea_settings.internal;
 
+import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toList;
-import static name.remal.gradle_plugins.toolkit.PredicateUtils.not;
 import static name.remal.gradle_plugins.toolkit.ResourceUtils.getResourceUrl;
 
 import com.google.auto.service.AutoService;

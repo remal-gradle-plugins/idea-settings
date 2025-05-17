@@ -65,7 +65,7 @@ dependencies {
     }
 
 
-    testImplementation 'org.json:json:20250107'
+    testImplementation 'org.json:json:20250517'
 }
 
 gradlePlugin {

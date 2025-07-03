@@ -50,7 +50,7 @@ tasks.register('processIdeaSettingsDebug') {
 apply plugin: 'java-gradle-plugin'
 
 dependencies {
-    classesRelocation('net.sf.saxon:Saxon-HE:12.7') {
+    classesRelocation('net.sf.saxon:Saxon-HE:12.8') {
         exclude group: 'xml-apis'
         exclude group: 'org.apache.httpcomponents'
     }

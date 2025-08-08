@@ -5,7 +5,6 @@ import static java.lang.Character.isWhitespace;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static lombok.AccessLevel.PRIVATE;
-import static name.remal.gradle_plugins.toolkit.ObjectUtils.isEmpty;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ abstract class CommandLineUtils {
 
     @Unmodifiable
     public static List<String> parseCommandLine(@Nullable String string) {
-        if (isEmpty(string)) {
+        if (string == null || string.isEmpty()) {
             return emptyList();
         }
 
@@ -143,7 +142,7 @@ abstract class CommandLineUtils {
 
 
     public static String createCommandLine(@Nullable Collection<String> parameters) {
-        if (isEmpty(parameters)) {
+        if (parameters == null || parameters.isEmpty()) {
             return "";
         }
 

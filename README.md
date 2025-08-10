@@ -11,7 +11,7 @@ Usage:
 <!--plugin-usage:name.remal.idea-settings-->
 ```groovy
 plugins {
-    id 'name.remal.idea-settings' version '4.0.3'
+    id 'name.remal.idea-settings' version '4.0.4'
 }
 ```
 <!--/plugin-usage-->

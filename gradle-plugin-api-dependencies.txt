@@ -2,6 +2,6 @@
 # Do not modify it yourself unless you know what you are doing.
 
 gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.3
-org.ow2.asm:asm-bom:9.9:@pom
+org.ow2.asm:asm-bom:9.9.1:@pom
 zzzz-classes-relying-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal.CommandLineUtils:a847c665c678549645df59bd18ae23cee354bd7171e1693c549db43c35f0ebd0
 zzzz-classes-relying-on-gradle-internal-api:name.remal.gradle_plugins.idea_settings.internal.ConfigureExternalAnnotationsRoot:c25d4ed16113de540c58224bfc0cef2f806b5849fef05e0ef1f035e807a65a5e

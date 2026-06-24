@@ -55,7 +55,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
     classesRelocation 'org.jdom:jdom2:2.0.6.1'
-    classesRelocation 'org.xmlunit:xmlunit-core:2.11.0'
+    classesRelocation 'org.xmlunit:xmlunit-core:2.12.0'
 
     api('gradle.plugin.org.jetbrains.gradle.plugin.idea-ext:gradle-idea-ext:1.4.1') {
         exclude group: 'com.google.code.findbugs'

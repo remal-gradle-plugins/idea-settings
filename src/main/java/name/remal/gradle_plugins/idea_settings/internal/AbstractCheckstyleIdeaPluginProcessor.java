@@ -56,6 +56,7 @@ abstract class AbstractCheckstyleIdeaPluginProcessor extends AbstractXsltSpecifi
 
     @Override
     @MustBeInvokedByOverriders
+    @SuppressWarnings("ReferenceEquality")
     public void setProject(Project project) {
         super.setProject(project);
 

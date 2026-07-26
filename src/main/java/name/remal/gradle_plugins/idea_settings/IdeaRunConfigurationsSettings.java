@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.gradle.api.Action;
 import org.gradle.api.JavaVersion;
 import org.gradle.api.Project;
+import org.jspecify.annotations.Nullable;
 
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class IdeaRunConfigurationsSettings {
 
         private List<String> jvmParameters = new ArrayList<>();
 
-        private Boolean shortenCommandLine;
+        private @Nullable Boolean shortenCommandLine;
 
     }
 

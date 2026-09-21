@@ -84,6 +84,7 @@ gradlePlugin {
             compatibility {
                 features {
                     configurationCache = false
+                    isolatedProjects = false
                 }
             }
         }
